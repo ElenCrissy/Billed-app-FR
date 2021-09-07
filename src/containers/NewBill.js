@@ -31,8 +31,10 @@ export default class NewBill {
         this.fileUrl = url
         this.fileName = fileName
       })
+      console.log('ok')
     } else {
       console.log('erreur')
+      e.preventDefault()
     }
   }
   handleSubmit = e => {
@@ -52,6 +54,9 @@ export default class NewBill {
       fileName: this.fileName,
       status: 'pending'
     }
+    // const extension = bill.fileName.split('.').pop()
+    // console.log(extension)
+    // if(extension === 'jpg' || extension === 'jpeg' || extension === 'png')
     this.createBill(bill)
     this.onNavigate(ROUTES_PATH['Bills'])
   }
