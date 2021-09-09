@@ -9,8 +9,9 @@ describe("Given I am connected as an employee", () => {
     test("Then only jpg, jpeg and png files should be accepted", () => {
       const html = NewBillUI()
       document.body.innerHTML = html
-      const file = screen.getByTestId("file").files[0]
-      const fileExtension = file.split('.').pop()
+      const file = screen.getByTestId("file")
+      const fileName = file.value
+      const fileExtension = fileName.split('.').pop()
       const extensions = ".jpg" || ".jpeg" || ".png"
       //to-do write assertion
       expect(fileExtension).toBe(extensions)

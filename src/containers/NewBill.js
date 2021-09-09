@@ -22,8 +22,9 @@ export default class NewBill {
     new Logout({ document, localStorage, onNavigate })
   }
   handleChangeFile = e => {
-    const file = this.document.querySelector(`input[data-testid="file"]`).files[0]
-    console.log(file)
+    const file = this.document.querySelector(`input[data-testid="file"]`)
+    const fileDetails = this.document.querySelector(`input[data-testid="file"]`).files[0]
+    console.log(fileDetails)
     const filePath = e.target.value.split(/\\/g)
     let fileName = filePath[filePath.length-1]
     //si extension est différente de jpg, jpeg ou png => erreur
@@ -33,7 +34,7 @@ export default class NewBill {
       this.firestore
       .storage
       .ref(`justificatifs/${fileName}`)
-      .put(file)
+      .put(fileDetails)
       .then(snapshot => snapshot.ref.getDownloadURL())
       .then(url => {
         this.fileUrl = url
@@ -42,17 +43,11 @@ export default class NewBill {
       error.style.display = "none"
       console.log('ok')
     } else {
-      fileName = " "
       console.log('erreur')
-      console.log(file)
-      // let truc = this.document.querySelector(`input[data-testid="file"]`).value
-      // truc = ""
-      // console.log(truc)
-      // for (var key in file) {
-      //   file[key].length === 0 
-      // }
       error.style.display = "block"
-      // console.log(fileName)
+      console.log(file.value)
+      file.value =""
+      console.log(fileDetails)
     }
   }
   handleSubmit = e => {
