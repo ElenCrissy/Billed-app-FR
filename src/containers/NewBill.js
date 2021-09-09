@@ -10,6 +10,11 @@ export default class NewBill {
     const formNewBill = this.document.querySelector(`form[data-testid="form-new-bill"]`)
     formNewBill.addEventListener("submit", this.handleSubmit)
     const file = this.document.querySelector(`input[data-testid="file"]`)
+    const error = this.document.createElement('div')
+    error.classList.add('error')
+    error.appendChild(this.document.createTextNode('Seuls les fichiers .jpg, .jpeg, .png sont valides.'))
+    file.parentNode.insertBefore(error, file.nextSibling)
+    error.style.display = "none"
     // file.accept = ".jpg, .jpeg, .png"
     file.addEventListener("change", this.handleChangeFile)
     this.fileUrl = null
@@ -18,10 +23,12 @@ export default class NewBill {
   }
   handleChangeFile = e => {
     const file = this.document.querySelector(`input[data-testid="file"]`).files[0]
+    console.log(file)
     const filePath = e.target.value.split(/\\/g)
-    const fileName = filePath[filePath.length-1]
+    let fileName = filePath[filePath.length-1]
     //si extension est différente de jpg, jpeg ou png => erreur
     const extension = fileName.split('.').pop()
+    const error = this.document.querySelector('.error')
     if(extension === 'jpg' || extension === 'jpeg' || extension === 'png') {
       this.firestore
       .storage
@@ -32,14 +39,20 @@ export default class NewBill {
         this.fileUrl = url
         this.fileName = fileName
       })
+      error.style.display = "none"
       console.log('ok')
     } else {
-      console.log('erreur', this.document.querySelector(`input[data-testid="file"]`).value)
-      const input = this.document.querySelector(`input[data-testid="file"]`)
-      input.value= "";
-      const error = this.document.createElement('div')
-      error.appendChild(this.document.createTextNode('Seuls les fichiers .jpg, .jpeg, .png sont valides.'))
-      input.parentNode.insertBefore(error, input.nextSibling);
+      fileName = " "
+      console.log('erreur')
+      console.log(file)
+      // let truc = this.document.querySelector(`input[data-testid="file"]`).value
+      // truc = ""
+      // console.log(truc)
+      // for (var key in file) {
+      //   file[key].length === 0 
+      // }
+      error.style.display = "block"
+      // console.log(fileName)
     }
   }
   handleSubmit = e => {
