@@ -10,6 +10,7 @@ export default class NewBill {
     const formNewBill = this.document.querySelector(`form[data-testid="form-new-bill"]`)
     formNewBill.addEventListener("submit", this.handleSubmit)
     const file = this.document.querySelector(`input[data-testid="file"]`)
+    // file.accept = ".jpg, .jpeg, .png"
     file.addEventListener("change", this.handleChangeFile)
     this.fileUrl = null
     this.fileName = null
@@ -33,8 +34,12 @@ export default class NewBill {
       })
       console.log('ok')
     } else {
-      console.log('erreur')
-      e.preventDefault()
+      console.log('erreur', this.document.querySelector(`input[data-testid="file"]`).value)
+      const input = this.document.querySelector(`input[data-testid="file"]`)
+      input.value= "";
+      const error = this.document.createElement('div')
+      error.appendChild(this.document.createTextNode('Seuls les fichiers .jpg, .jpeg, .png sont valides.'))
+      input.parentNode.insertBefore(error, input.nextSibling);
     }
   }
   handleSubmit = e => {
