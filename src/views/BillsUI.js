@@ -20,7 +20,7 @@ const row = (bill) => {
   }
 
 const rows = (data) => {
-  if (data.length) {
+  if (data && data.length) {
     return data
       .sort((a, b) => ((a.date < b.date) ? 1 : -1))
       .map(bill => row(bill))

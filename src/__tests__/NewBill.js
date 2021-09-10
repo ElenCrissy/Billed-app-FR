@@ -7,15 +7,15 @@ import { htmlPrefilter } from "jquery"
 
 describe("Given I am connected as an employee", () => {
   describe("When I am on NewBill Page", () => {
-    test("Then only jpg, jpeg and png files should be accepted", () => {
+    test("Then only jpg, jpeg and png files should be accepted", async () => {
       const html = NewBillUI()
       document.body.innerHTML = html
-      const file = screen.getByTestId("file")
+      const file = await screen.queryByTestId("file")
       const fileName = file.value
       const fileExtension = fileName.split('.').pop()
-      const extensions = (".jpg" || ".jpeg" || ".png")
+      const extensions = ".jpg" || ".jpeg" || ".png"
       //to-do write assertion
-      expect(fileExtension).toEqual(extensions)
+      expect(fileExtension).toBe(extensions)
     })
   })
 })
