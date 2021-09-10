@@ -15,7 +15,7 @@ export default class NewBill {
     error.appendChild(this.document.createTextNode('Seuls les fichiers .jpg, .jpeg, .png sont valides.'))
     file.parentNode.insertBefore(error, file.nextSibling)
     error.style.display = "none"
-    // file.accept = ".jpg, .jpeg, .png"
+    file.accept = ".jpg, .jpeg, .png"
     file.addEventListener("change", this.handleChangeFile)
     this.fileUrl = null
     this.fileName = null
@@ -41,13 +41,9 @@ export default class NewBill {
         this.fileName = fileName
       })
       error.style.display = "none"
-      console.log('ok')
     } else {
-      console.log('erreur')
       error.style.display = "block"
-      console.log(file.value)
       file.value =""
-      console.log(fileDetails)
     }
   }
   handleSubmit = e => {
