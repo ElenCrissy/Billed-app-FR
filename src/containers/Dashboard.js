@@ -52,6 +52,12 @@ export const card = (bill) => {
 }
 
 export const cards = (bills) => {
+  // if (bills && bills.length) {
+  //   return bills
+  //     .map(bill => card(bill))
+  //     .join("")
+  // }
+  // return ""
   return bills && bills.length ? bills.map(bill => card(bill)).join("") : ""
 }
 
@@ -130,8 +136,9 @@ export default class {
     this.onNavigate(ROUTES_PATH['Dashboard'])
   }
 
-  //BUG 3
   handleShowTickets(e, bills, index) {
+    console.log(bills)
+    console.log(index)
     if (this.counter === undefined || this.index !== index) this.counter = 0
     if (this.index === undefined || this.index !== index) this.index = index
     if (this.counter % 2 === 0) {
@@ -145,6 +152,7 @@ export default class {
         .html("")
       this.counter ++
     }
+    console.log(this.counter)
 
     bills.forEach(bill => {
       $(`#open-bill${bill.id}`).click((e) => this.handleEditTicket(e, bill, bills))
