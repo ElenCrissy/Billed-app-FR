@@ -7,11 +7,36 @@ import { htmlPrefilter } from "jquery"
 
 describe("Given I am connected as an employee", () => {
   describe("When I am on NewBill Page", () => {
+    // localStorage
+
+    // const mock = (function() {
+    //   const store = {};
+    //   return {
+    //     getItem: function(key) {
+    //       return store[key];
+    //     },
+    //     setItem: function(key, value) {
+    //       store[key] = value.toString();
+    //     },
+    //     clear: function() {
+    //       store = {};
+    //     }
+    //   };
+    // })();
+
+    // Object.defineProperty(window, "localStorage", {
+      //   value: {
+      //     getItem: jest.fn(() => null),
+      //     setItem: jest.fn(() => null)
+      //   },
+      //   writable: true
+      // });
+
     test("Then only jpg, jpeg and png files should be accepted", () => {
       const html = NewBillUI()
       document.body.innerHTML = html
-      // Object.defineProperty(window, 'localStorage', { value: localStorageMock })
-      // window.localStorage.setItem('user', JSON.stringify({
+      // Object.defineProperty(window, 'localStorage', { value: mock})
+      // window.localStorage.getItem('user', JSON.stringify({
       //   type: 'Employee'
       // }))
       // const onNavigate = (pathname) => {
