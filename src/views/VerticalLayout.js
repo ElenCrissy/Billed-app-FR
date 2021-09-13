@@ -4,7 +4,9 @@ import DisconnectIcon from "../assets/svg/disconnect.js"
 
 export default (height) => {
     let user;
-    user = JSON.parse(localStorage.getItem('user'))
+    // user = JSON.parse(localStorage.getItem('user'))
+    user = localStorage.getItem('user')
+
     if (typeof user === 'string') {
       user = JSON.parse(user)
     }
