@@ -52,12 +52,6 @@ export const card = (bill) => {
 }
 
 export const cards = (bills) => {
-  // if (bills && bills.length) {
-  //   return bills
-  //     .map(bill => card(bill))
-  //     .join("")
-  // }
-  // return ""
   return bills && bills.length ? bills.map(bill => card(bill)).join("") : ""
 }
 
