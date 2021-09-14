@@ -11,12 +11,24 @@ describe("Given I am connected as an employee", () => {
       const html = NewBillUI()
       document.body.innerHTML = html
 
-      const file = screen.queryByTestId("file")
-      // const handleChangeFile = jest.fn((e) => newBill.handleChangeFile(e)) 
-      // file.addEventListener('input', handleChangeFile)
-
-      // fireEvent.change(file, {target : File.name})
-
+      const file = screen.getByTestId("file")
+      const firestoreMock = {
+        storage : {
+          ref : jest.fn().mockReturnThis(),
+          put : jest.fn().mockImplementation(() => Promise.resolve({
+            ref: {
+              getDownloadURL : jest.fn()
+            }
+          }))
+        }
+      }
+      
+      const newBill = new NewBill({document, firestore : firestoreMock})
+      
+      // const truc= {
+      //   document : document
+      // }
+      // const truc2 = {document}
 
       const fileName = file.value
       const fileExtension = fileName.split('.').pop()

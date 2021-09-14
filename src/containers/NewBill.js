@@ -45,7 +45,7 @@ export default class NewBill {
     } else {
       console.log('error', this.firestore)
       error.style.display = "block"
-      file.value =""
+      file.value = ""
     }
   }
   handleSubmit = e => {
