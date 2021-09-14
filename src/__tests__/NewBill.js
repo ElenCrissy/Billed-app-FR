@@ -9,28 +9,28 @@ describe("Given I am connected as an employee", () => {
   describe("When I am on NewBill Page", () => {
     // localStorage
 
-    // const mock = (function() {
-    //   const store = {};
-    //   return {
-    //     getItem: function(key) {
-    //       return store[key];
-    //     },
-    //     setItem: function(key, value) {
-    //       store[key] = value.toString();
-    //     },
-    //     clear: function() {
-    //       store = {};
-    //     }
-    //   };
-    // })();
+    const mock = (function() {
+      const store = {};
+      return {
+        getItem: function(key) {
+          return store[key];
+        },
+        setItem: function(key, value) {
+          store[key] = value.toString();
+        },
+        clear: function() {
+          store = {};
+        }
+      };
+    })();
 
-    // Object.defineProperty(window, "localStorage", {
-      //   value: {
-      //     getItem: jest.fn(() => null),
-      //     setItem: jest.fn(() => null)
-      //   },
-      //   writable: true
-      // });
+    Object.defineProperty(window, "localStorage", {
+      value: {
+        getItem: jest.fn(() => null),
+        setItem: jest.fn(() => null)
+      },
+      writable: true
+    });
 
     test("Then only jpg, jpeg and png files should be accepted", () => {
       const html = NewBillUI()
@@ -50,7 +50,7 @@ describe("Given I am connected as an employee", () => {
       // file.addEventListener('input', handleChangeFile)
       // userEvent.change(file)
 
-      fireEvent.change(file, {target : File.name})
+      // fireEvent.change(file, {target : File.name})
 
       const fileName = file.value
       const fileExtension = fileName.split('.').pop()

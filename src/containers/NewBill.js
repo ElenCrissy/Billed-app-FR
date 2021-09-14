@@ -32,14 +32,14 @@ export default class NewBill {
     const error = this.document.querySelector('.error')
     if(extension === 'jpg' || extension === 'jpeg' || extension === 'png') {
       this.firestore
-      .storage
-      .ref(`justificatifs/${fileName}`)
-      .put(fileDetails)
-      .then(snapshot => snapshot.ref.getDownloadURL())
-      .then(url => {
-        this.fileUrl = url
-        this.fileName = fileName
-      })
+        .storage
+        .ref(`justificatifs/${fileName}`)
+        .put(fileDetails)
+        .then(snapshot => snapshot.ref.getDownloadURL())
+        .then(url => {
+          this.fileUrl = url
+          this.fileName = fileName
+        })
       error.style.display = "none"
     } else {
       error.style.display = "block"
