@@ -41,9 +41,9 @@ export default class NewBill {
           this.fileName = fileName
         })
       error.style.display = "none"
-      console.log('ok', this.firestore)
+      console.log('ok', file)
     } else {
-      console.log('error', this.firestore)
+      console.log('error', file)
       error.style.display = "block"
       file.value = ""
     }

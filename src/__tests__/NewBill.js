@@ -22,13 +22,29 @@ describe("Given I am connected as an employee", () => {
           }))
         }
       }
-      
+      // const waitForImage = (img) => {
+      //   return new Promise(resolve => {
+      //     img.onload = () => resolve(img)
+      //   })
+      // }
+      // waitForImage(img).then(loadedImage => {
+      //   except(loadedImage.naturalWidth).toBe(1200)
+      // })
+
       const newBill = new NewBill({document, firestore : firestoreMock})
-      
+      const imgJpg = document.createElement('img')
+      imgJpg.src = 'yourlogo.jpg'
+      const imgPng = document.createElement('img')
+      imgPng.src = 'yourlogo.png'
       // const truc= {
       //   document : document
       // }
       // const truc2 = {document}
+
+      fireEvent.change(file, {target: {name: `${img}`}})
+      const handleChangeFile = jest.fn((e) => newBill.handleChangeFile(e)) 
+      // file.addEventListener('input', handleChangeFile)
+      expect(handleChangeFile).toBeCalled()
 
       const fileName = file.value
       const fileExtension = fileName.split('.').pop()
