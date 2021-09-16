@@ -4,7 +4,6 @@ import NewBillUI from "../views/NewBillUI.js"
 import NewBill from "../containers/NewBill.js"
 import { htmlPrefilter } from "jquery"
 
-
 describe("Given I am connected as an employee", () => {
   describe("When I am on NewBill Page", () => {
     test("Then only jpg, jpeg and png files should be accepted", () => {
@@ -12,6 +11,9 @@ describe("Given I am connected as an employee", () => {
       document.body.innerHTML = html
 
       const file = screen.getByTestId("file")
+      expect(file).toBeTruthy()
+      file.value = ''
+
       const firestoreMock = {
         storage : {
           ref : jest.fn().mockReturnThis(),
@@ -24,25 +26,18 @@ describe("Given I am connected as an employee", () => {
       }
 
       const newBill = new NewBill({document, firestore : firestoreMock})
-      // const imgJPG = document.createElement('img')
-      // imgJPG.src = '../assets/images/facturefreemobile.jpg'
+      // const imgJPG = jest.mock('../assets/images/facturefreemobile.jpg', () =>'facturefreemobile.jpg')
+      const imgPng = document.createElement('img')
+      imgPng.src = '../assets/images/facturefreemobile.jpg'
 
-      const imgJPG = jest.mock('../assets/images/facturefreemobile.jpg', ()=>'facturefreemobile.jpg');
-      // const imgPng = document.createElement('img')
-      // imgPng.src = 'logo.png'
-
-      // const truc= {
-      //   document : document
-      // }
-      // const truc2 = {document}
-
-      expect(file).toBeTruthy()
-      fireEvent.change(file, {target: {name: `${imgJPG}`}})
+      fireEvent.change(file, {target : {value: `${imgPng}`}})
       const handleChangeFile = jest.fn((e) => newBill.handleChangeFile(e)) 
-      // file.addEventListener('input', handleChangeFile)
-      expect(handleChangeFile()).toBeCalled()
+      file.addEventListener('input', handleChangeFile)
+      expect(handleChangeFile()).toHaveBeenCalled()
 
       //put appelé avec jpg et png
+      expect(firestoreMock)
+
       //put non appelé avec autre
 
       const fileName = file.value
