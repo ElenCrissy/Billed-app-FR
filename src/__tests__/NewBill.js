@@ -18,33 +18,32 @@ describe("Given I am connected as an employee", () => {
           put : jest.fn().mockImplementation(() => Promise.resolve({
             ref: {
               getDownloadURL : jest.fn()
-            }
+            } 
           }))
         }
       }
-      // const waitForImage = (img) => {
-      //   return new Promise(resolve => {
-      //     img.onload = () => resolve(img)
-      //   })
-      // }
-      // waitForImage(img).then(loadedImage => {
-      //   except(loadedImage.naturalWidth).toBe(1200)
-      // })
 
       const newBill = new NewBill({document, firestore : firestoreMock})
-      const imgJpg = document.createElement('img')
-      imgJpg.src = 'yourlogo.jpg'
-      const imgPng = document.createElement('img')
-      imgPng.src = 'yourlogo.png'
+      // const imgJPG = document.createElement('img')
+      // imgJPG.src = '../assets/images/facturefreemobile.jpg'
+
+      const imgJPG = jest.mock('../assets/images/facturefreemobile.jpg', ()=>'facturefreemobile.jpg');
+      // const imgPng = document.createElement('img')
+      // imgPng.src = 'logo.png'
+
       // const truc= {
       //   document : document
       // }
       // const truc2 = {document}
 
-      fireEvent.change(file, {target: {name: `${img}`}})
+      expect(file).toBeTruthy()
+      fireEvent.change(file, {target: {name: `${imgJPG}`}})
       const handleChangeFile = jest.fn((e) => newBill.handleChangeFile(e)) 
       // file.addEventListener('input', handleChangeFile)
-      expect(handleChangeFile).toBeCalled()
+      expect(handleChangeFile()).toBeCalled()
+
+      //put appelé avec jpg et png
+      //put non appelé avec autre
 
       const fileName = file.value
       const fileExtension = fileName.split('.').pop()
