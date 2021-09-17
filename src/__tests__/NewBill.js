@@ -11,8 +11,9 @@ describe("Given I am connected as an employee", () => {
       document.body.innerHTML = html
 
       const file = screen.getByTestId("file")
-      expect(file).toBeTruthy()
       file.value = ''
+
+      expect(file).toBeTruthy()
 
       const firestoreMock = {
         storage : {
@@ -29,8 +30,10 @@ describe("Given I am connected as an employee", () => {
       // const imgJPG = jest.mock('../assets/images/facturefreemobile.jpg', () =>'facturefreemobile.jpg')
       const imgPng = document.createElement('img')
       imgPng.src = '../assets/images/facturefreemobile.jpg'
+      // imgPng.type = 'image/jpg'
 
-      fireEvent.change(file, {target : {value: `${imgPng}`}})
+      fireEvent.change(file, {target : {value : ''}})
+      expect(file.value).toBe('')
       const handleChangeFile = jest.fn((e) => newBill.handleChangeFile(e)) 
       file.addEventListener('input', handleChangeFile)
       expect(handleChangeFile()).toHaveBeenCalled()
