@@ -4,31 +4,6 @@ import { bills } from "../fixtures/bills.js"
 import Bills from "../containers/Bills.js"
 import firebase from "../__mocks__/firebase"
 
-// localStorage
-
-// const mock = (function() {
-//   const store = {};
-//   return {
-//     getItem: function(key) {
-//       return store[key];
-//     },
-//     setItem: function(key, value) {
-//       store[key] = value.toString();
-//     },
-//     clear: function() {
-//       store = {};
-//     }
-//   };
-// })();
-
-// Object.defineProperty(window, "localStorage", {
-    //   value: {
-    //     getItem: jest.fn(() => null),
-    //     setItem: jest.fn(() => null)
-    //   },
-    //   writable: true
-    // });
-
 describe("Given I am connected as an employee", () => {
   describe("When I am on Bills Page", () => {
     // Object.defineProperty(window, 'localStorage', { value: mock });
