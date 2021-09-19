@@ -131,8 +131,6 @@ export default class {
   }
 
   handleShowTickets(e, bills, index) {
-    console.log(bills)
-    console.log(index)
     if (this.counter === undefined || this.index !== index) this.counter = 0
     if (this.index === undefined || this.index !== index) this.index = index
     if (this.counter % 2 === 0) {
@@ -140,11 +138,13 @@ export default class {
       $(`#status-bills-container${this.index}`)
         .html(cards(filteredBills(bills, getStatus(this.index))))
       this.counter ++
+      console.log('counter 1', this.counter)
     } else {
       $(`#arrow-icon${this.index}`).css({ transform: 'rotate(90deg)'})
       $(`#status-bills-container${this.index}`)
         .html("")
       this.counter ++
+      console.log('counter 2', this.counter)
     }
 
     bills.forEach(bill => {
