@@ -3,18 +3,19 @@ import BillsUI from "../views/BillsUI.js"
 import { bills } from "../fixtures/bills.js"
 import Bills from "../containers/Bills.js"
 import firebase from "../__mocks__/firebase"
+import localStorageMock from '../__mocks__/localStorage'
 
 describe("Given I am connected as an employee", () => {
   describe("When I am on Bills Page", () => {
-    // Object.defineProperty(window, 'localStorage', { value: mock });
-    // jest.spyOn(Storage.prototype, 'setItem')
 
     test("Then bill icon in vertical layout should be highlighted", () => {
+      // Object.defineProperty(window, 'localStorage', { value: mock });
+      // jest.spyOn(Storage.prototype, 'setItem')
       const html = BillsUI({ data: []})
       document.body.innerHTML = html
       //to-do write expect expression
       // vérifier si mode employé
-      // expect(window.localStorage.getItem('user')).toBe('Employee');
+      expect(window.localStorageMock.getItem('user')).toBe('Employee');
       // selectionner icon-window testId et vérifier si highlighted
       // const iconWindow = screen.getByTestId('icon-window')
       // expect(iconWindow).toHaveClass('.active-icon')
@@ -32,6 +33,7 @@ describe("Given I am connected as an employee", () => {
 })
 
 // test d'intégration GET
+
 describe("Given I am a user connected as Employee", () => {
   describe("When I navigate to the bills", async () => {
     const getSpy = jest.spyOn(firebase, "get")

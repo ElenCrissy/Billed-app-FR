@@ -14,6 +14,7 @@ export default class {
       icon.addEventListener('click', (e) => this.handleClickIconEye(icon))
     })
     new Logout({ document, localStorage, onNavigate })
+    console.log(localStorage)
   }
 
   handleClickNewBill = e => {
