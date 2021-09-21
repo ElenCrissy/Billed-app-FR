@@ -11,14 +11,21 @@ describe("Given I am connected as an employee", () => {
     test("Then bill icon in vertical layout should be highlighted", () => {
       // Object.defineProperty(window, 'localStorage', { value: mock });
       // jest.spyOn(Storage.prototype, 'setItem')
+      // jest.spyOn(window.localStorage.__proto__, 'getItem');
+      window.localStorage.getItem = jest.fn();
       const html = BillsUI({ data: []})
       document.body.innerHTML = html
       //to-do write expect expression
       // vérifier si mode employé
-      expect(window.localStorageMock.getItem('user')).toBe('Employee');
+      const userString = window.localStorage.getItem('user')
+      const user = JSON.parse(userString)
+      // expect(window.location.hash).toBe("#employee/bill/")
+      expect("#employee/bill/").toBe(window.location.hash)
+      expect(user.type).toBe('Employee')
+
       // selectionner icon-window testId et vérifier si highlighted
-      // const iconWindow = screen.getByTestId('icon-window')
-      // expect(iconWindow).toHaveClass('.active-icon')
+      const iconWindow = screen.getByTestId('icon-window')
+      expect(iconWindow).toHaveClass('.active-icon')
     })
 
     test("Then bills should be ordered from earliest to latest", () => {

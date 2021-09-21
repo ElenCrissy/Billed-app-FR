@@ -23,9 +23,9 @@ export default class NewBill {
   handleChangeFile = e => {
     const file = this.document.querySelector(`input[data-testid="file"]`)
     const fileDetails = this.document.querySelector(`input[data-testid="file"]`).files[0]
-    console.log(fileDetails)
     const filePath = e.target.value.split(/\\/g)
     let fileName = filePath[filePath.length-1]
+    // Bug 3
     //si extension est différente de jpg, jpeg ou png => erreur
     const extension = fileName.split('.').pop()
     const error = this.document.querySelector('.error')

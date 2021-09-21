@@ -19,7 +19,7 @@ const row = (bill) => {
     `)
   }
 
-// Bug 1
+// Bug 2
 const rows = (data) => {
   if (data && data.length) {
     return data
