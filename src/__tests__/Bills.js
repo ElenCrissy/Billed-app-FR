@@ -4,28 +4,30 @@ import { bills } from "../fixtures/bills.js"
 import Bills from "../containers/Bills.js"
 import firebase from "../__mocks__/firebase"
 import localStorageMock from '../__mocks__/localStorage'
+// import { Router } from "express"
+// ***
+import { ROUTES } from "../constants/routes.js"
 
 describe("Given I am connected as an employee", () => {
   describe("When I am on Bills Page", () => {
 
     test("Then bill icon in vertical layout should be highlighted", () => {
-      // Object.defineProperty(window, 'localStorage', { value: mock });
-      // jest.spyOn(Storage.prototype, 'setItem')
-      // jest.spyOn(window.localStorage.__proto__, 'getItem');
-      window.localStorage.getItem = jest.fn();
       const html = BillsUI({ data: []})
       document.body.innerHTML = html
       //to-do write expect expression
       // vérifier si mode employé
-      const userString = window.localStorage.getItem('user')
-      const user = JSON.parse(userString)
-      // expect(window.location.hash).toBe("#employee/bill/")
+      const route = ROUTES ( { pathname : ['Bills'] })
+      expect(window.onNavigate).toHaveBeenCalledWith("#employee/bill/")
       expect(window.location.hash).toBe("#employee/bill/")
-      expect(user.type).toBe('Employee')
+
+      // const userString = window.localStorage.getItem('user')
+      // const user = JSON.parse(userString)
+      // expect(window.location.hash).toBe("#employee/bill/")
+      // expect(user.type).toBe('Employee')
 
       // selectionner icon-window testId et vérifier si highlighted
-      const iconWindow = screen.getByTestId('icon-window')
-      expect(iconWindow).toHaveClass('.active-icon')
+      const billIcon = screen.getByTestId('layout-icon1')
+      expect(billIcon).toHaveClass('.active-icon')
     })
 
     test("Then bills should be ordered from earliest to latest", () => {
