@@ -16,10 +16,11 @@ describe("Given I am connected as an employee", () => {
       const html = BillsUI({ data: []})
       document.body.innerHTML = html
       //to-do write expect expression
-      // vérifier si mode employé
-      const newRouter = Router.createElement('div')
-      newRouter.innerHTML = new ROUTES ({pathname :'#employee/bill/' })
-      expect(newRouter.pathname).toEqual('#employee/bill/')
+      const root = html  
+      const router = Router()
+      // const root = html.getElementById('root')
+      // root.innerHTML = new ROUTES ({pathname :'#employee/bill/'})
+      expect(router).toBeCalled()
       // expect(window.location.hash).toBe("#employee/bill/")
 
       // const userString = window.localStorage.getItem('user')
@@ -29,6 +30,7 @@ describe("Given I am connected as an employee", () => {
 
       // selectionner icon-window testId et vérifier si highlighted
       const billIcon = screen.getByTestId('layout-icon1')
+      expect(billIcon).toBeInTheDocument()
       expect(billIcon).toHaveClass('active-icon')
     })
 
