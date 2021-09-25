@@ -7,7 +7,7 @@ import localStorageMock from '../__mocks__/localStorage'
 // import { Router } from "express"
 // ***
 import { ROUTES } from "../constants/routes.js"
-import * as Router from "../app/Router.js"
+import Router from "../app/Router.js"
 
 describe("Given I am connected as an employee", () => {
   describe("When I am on Bills Page", () => {
@@ -17,9 +17,9 @@ describe("Given I am connected as an employee", () => {
       document.body.innerHTML = html
       //to-do write expect expression
       // vérifier si mode employé
-      const route = ROUTES ( { pathname : '#employee/bill/' })
-      const newRouter = new Router()
-      expect(Router).toHaveBeenCalledWith("#employee/bill/")
+      const newRouter = Router.createElement('div')
+      newRouter.innerHTML = new ROUTES ({pathname :'#employee/bill/' })
+      expect(newRouter.pathname).toEqual('#employee/bill/')
       // expect(window.location.hash).toBe("#employee/bill/")
 
       // const userString = window.localStorage.getItem('user')
