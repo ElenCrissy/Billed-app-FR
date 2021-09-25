@@ -7,6 +7,7 @@ import localStorageMock from '../__mocks__/localStorage'
 // import { Router } from "express"
 // ***
 import { ROUTES } from "../constants/routes.js"
+import * as Router from "../app/Router.js"
 
 describe("Given I am connected as an employee", () => {
   describe("When I am on Bills Page", () => {
@@ -16,9 +17,10 @@ describe("Given I am connected as an employee", () => {
       document.body.innerHTML = html
       //to-do write expect expression
       // vérifier si mode employé
-      const route = ROUTES ( { pathname : ['Bills'] })
-      expect(window.onNavigate).toHaveBeenCalledWith("#employee/bill/")
-      expect(window.location.hash).toBe("#employee/bill/")
+      const route = ROUTES ( { pathname : '#employee/bill/' })
+      const newRouter = new Router()
+      expect(Router).toHaveBeenCalledWith("#employee/bill/")
+      // expect(window.location.hash).toBe("#employee/bill/")
 
       // const userString = window.localStorage.getItem('user')
       // const user = JSON.parse(userString)
@@ -27,7 +29,7 @@ describe("Given I am connected as an employee", () => {
 
       // selectionner icon-window testId et vérifier si highlighted
       const billIcon = screen.getByTestId('layout-icon1')
-      expect(billIcon).toHaveClass('.active-icon')
+      expect(billIcon).toHaveClass('active-icon')
     })
 
     test("Then bills should be ordered from earliest to latest", () => {
