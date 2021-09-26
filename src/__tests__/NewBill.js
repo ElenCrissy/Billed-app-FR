@@ -35,7 +35,7 @@ describe("Given I am connected as an employee", () => {
 
       const newBill = new NewBill({document, firestore : firestoreMock})  
 
-      //put appelé avec jpg et png
+      //put appelé avec png
       userEvent.upload(input, filePNG)
       expect(firestoreMock.storage.ref).toHaveBeenCalled()
 
