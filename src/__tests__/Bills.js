@@ -13,14 +13,18 @@ describe("Given I am connected as an employee", () => {
   describe("When I am on Bills Page", () => {
 
     test("Then bill icon in vertical layout should be highlighted", () => {
-      const html = BillsUI({ data: []})
-      document.body.innerHTML = html
+      // const html = BillsUI({ data: []})
+      // document.body.innerHTML = html
+
       //to-do write expect expression 
       // créer router
       // window onNavigate
       // route = Bill
-      route.innerHTML = ROUTES({pathname : '#employee/bills'})
-      expect(router.window.onNavigate).toEqual('#employee/bills')
+      const pathname = '#employee/bills'
+      const onNavigate = (pathname) => {
+        document.body.innerHTML = ROUTES({pathname})
+      }
+      expect(onNavigate).toBeCalled
       // expect(window.location.hash).toBe("#employee/bill/")
       // selectionner icon-window testId et vérifier si highlighted
       const billIcon = screen.getByTestId('layout-icon1')
