@@ -23,16 +23,16 @@ export default class NewBill {
   handleChangeFile = e => {
     const file = this.document.querySelector(`input[data-testid="file"]`)
     const fileDetails = this.document.querySelector(`input[data-testid="file"]`).files[0]
-    const filePath = e.target.value.split(/\\/g)
-    let fileName = filePath[filePath.length-1]
+    // const filePath = e.target.value.split(/\\/g)
+    // let fileName = filePath[filePath.length-1]
     // Bug 3
     //si extension est différente de jpg, jpeg ou png => erreur
-    const extension = fileName.split('.').pop()
+    const extension = file.value.split('.').pop()
     const error = this.document.querySelector('.error')
     if(extension === 'jpg' || extension === 'jpeg' || extension === 'png') {
       this.firestore
         .storage
-        .ref(`justificatifs/${fileName}`)
+        .ref(`justificatifs/${file.value}`)
         .put(fileDetails)
         .then(snapshot => snapshot.ref.getDownloadURL())
         .then(url => {

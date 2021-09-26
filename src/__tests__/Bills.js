@@ -15,19 +15,13 @@ describe("Given I am connected as an employee", () => {
     test("Then bill icon in vertical layout should be highlighted", () => {
       const html = BillsUI({ data: []})
       document.body.innerHTML = html
-      //to-do write expect expression
-      const root = html  
-      const router = Router()
-      // const root = html.getElementById('root')
-      // root.innerHTML = new ROUTES ({pathname :'#employee/bill/'})
-      expect(router).toBeCalled()
+      //to-do write expect expression 
+      // créer router
+      // window onNavigate
+      // route = Bill
+      route.innerHTML = ROUTES({pathname : '#employee/bills'})
+      expect(router.window.onNavigate).toEqual('#employee/bills')
       // expect(window.location.hash).toBe("#employee/bill/")
-
-      // const userString = window.localStorage.getItem('user')
-      // const user = JSON.parse(userString)
-      // expect(window.location.hash).toBe("#employee/bill/")
-      // expect(user.type).toBe('Employee')
-
       // selectionner icon-window testId et vérifier si highlighted
       const billIcon = screen.getByTestId('layout-icon1')
       expect(billIcon).toBeInTheDocument()
