@@ -20,13 +20,19 @@ describe("Given I am connected as an employee", () => {
       // créer router
       // window onNavigate
       // route = Bill
-      const pathname = '#employee/bills'
+      const pathnameEmployee = '#employee/bills'
       const onNavigate = (pathname) => {
         document.body.innerHTML = ROUTES({pathname})
       }
+      onNavigate(pathnameEmployee)
+      // Object.defineProperty(window, 'localStorage', { value: localStorageMock })
+      // window.localStorage.setItem('user', JSON.stringify({
+      //   type: 'Employee'
+      // }))
+
       expect(onNavigate).toBeCalled
       // expect(window.location.hash).toBe("#employee/bill/")
-      // selectionner icon-window testId et vérifier si highlighted
+      // selectionner layout-icon1 et vérifier si highlighted
       const billIcon = screen.getByTestId('layout-icon1')
       expect(billIcon).toBeInTheDocument()
       expect(billIcon).toHaveClass('active-icon')
