@@ -1,4 +1,5 @@
 import { fireEvent, screen, getByTestId } from "@testing-library/dom"
+import userEvent from "@testing-library/user-event"
 import BillsUI from "../views/BillsUI.js"
 import { bills } from "../fixtures/bills.js"
 import Bills from "../containers/Bills.js"
@@ -21,16 +22,16 @@ describe("Given I am connected as an employee", () => {
       // window onNavigate
       // route = Bill
       const pathnameEmployee = '#employee/bills'
-      const onNavigate = (pathname) => {
+      const onNavigateMock = jest.fn((pathname) => {
         document.body.innerHTML = ROUTES({pathname})
-      }
-      onNavigate(pathnameEmployee)
+      }) 
+      
       // Object.defineProperty(window, 'localStorage', { value: localStorageMock })
       // window.localStorage.setItem('user', JSON.stringify({
       //   type: 'Employee'
       // }))
 
-      expect(onNavigate).toBeCalled
+      expect(onNavigateMock('#employee/bills')).toHaveBeenCalled()
       // expect(window.location.hash).toBe("#employee/bill/")
       // selectionner layout-icon1 et vérifier si highlighted
       const billIcon = screen.getByTestId('layout-icon1')
@@ -75,28 +76,28 @@ describe("Given I am user connected as Employee", () => {
 
       test.each(bills)("Then opens modal with image", () => {
   
-        const firestoreMock = {
-          storage : {
-            ref : jest.fn().mockReturnThis(),
-            put : jest.fn().mockImplementation(() => Promise.resolve({
-              ref: {
-                getDownloadURL : jest.fn()
-              } 
-            }))
-          }
+        Object.defineProperty(window, 'localStorage', { value: localStorageMock })
+        window.localStorage.setItem('user', JSON.stringify({
+          type: 'Employee'
+        }))
+        const html = BillUI({data:[]})
+        document.body.innerHTML = html
+        const onNavigate = (pathname) => {
+          document.body.innerHTML = ROUTES({ pathname })
         }
-  
-        // const mockCallBack = jest.fn();
-  
-        // const button = shallow((<Button onClick={mockCallBack}>Ok!</Button>));
-        // button.find('button').simulate('click');
-        // expect(mockCallBack.mock.calls.length).toEqual(1);
-  
-        const bill = new Bills({document, firestore : firestoreMock})
-        const iconEye = screen.getByTestId("icon-eye")
-        const handleClickIconEye = jest.fn((e) => bill.handleClickIconEye(icon)) 
-        iconEye.addEventListener('click', handleClickIconEye)
-        expect(handleClickIconEye()).toHaveBeenCalled()
+        const firestore = null
+        const bill = new Bill({
+          document, onNavigate, firestore, bills, localStorage: window.localStorage
+        })
+
+        const handleClickIconEye = jest.fn(bill.handleClickIconEye)
+        const eye = screen.getByTestId('icon-eye')
+        eye.addEventListener('click', handleClickIconEye)
+        userEvent.click(eye)
+        expect(handleClickIconEye).toHaveBeenCalled()
+
+        const modale = screen.getByTestId('modaleFile')
+        expect(modale).toBeTruthy()
       })
     })
   })
