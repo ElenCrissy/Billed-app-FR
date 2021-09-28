@@ -39,7 +39,7 @@ describe("Given I am connected as an employee", () => {
       // const html = BillsUI({data:[]})
       // document.body.innerHTML = html
       //to-do write expect expression
-      jest.mock('Firestore')
+      jest.mock(Firestore)
       Firestore.bills = () => ({ bills, get: jest.fn().mockImplementation(() => Promise.resolve(value))})
       Object.defineProperty(window, 'localStorage', { value: localStorageMock })
       window.localStorage.setItem('user', JSON.stringify({

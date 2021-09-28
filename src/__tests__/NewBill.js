@@ -42,7 +42,13 @@ describe("Given I am connected as an employee", () => {
 
       //put non appelé avec autre
       userEvent.upload(input, filePDF)
-      expect(firestoreMock.storage.put).not.toHaveBeenCalledTimes(1)
+      expect(firestoreMock.storage.put).not.toHaveBeenCalled()
+    })
+
+    test("Then I can submit the form", () => {
+      // récupère valeur des champs remplis
+      // lancement de createBill
+      // onNavigate routepath Bills
     })
   })
 })
