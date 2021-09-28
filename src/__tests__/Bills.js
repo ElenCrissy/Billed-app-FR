@@ -8,32 +8,48 @@ import localStorageMock from '../__mocks__/localStorage'
 // import { Router } from "express"
 // ***
 import { ROUTES } from "../constants/routes.js"
-import Router from "../app/Router.js"
+import {router} from "../app/Router.js"
+import LoadingPage from "../views/LoadingPage.js"
+import ErrorPage from "../views/ErrorPage.js"
 
+// à revoir
 describe("Given I am connected as an employee", () => {
+  describe("When page is loading", () => {
+    test("Then Loading Page is returned", () => {
+      const html = BillsUI({data : loading})
+      document.body.innerHTML = html
+      LoadingPage()
+      expect(LoadingPage).toEqual(html)
+    })
+  })
+
+  describe("When page is not loading", () => {
+    test("Then error page is returned", () => {
+      const html = BillsUI({data : error})
+      document.body.innerHTML = html
+      expect(ErrorPage(error)).toEqual(html)
+    })
+  })
+
   describe("When I am on Bills Page", () => {
 
+    // à revoir
     test("Then bill icon in vertical layout should be highlighted", () => {
-      // const html = BillsUI({ data: []})
-      // document.body.innerHTML = html
-
+      const html = BillsUI({data:[]})
+      document.body.innerHTML = html
       //to-do write expect expression 
-      // créer router
-      // window onNavigate
-      // route = Bill
       const pathnameEmployee = '#employee/bills'
-      const onNavigateMock = jest.fn((pathname) => {
+      const onNavigate = (pathname) => {
         document.body.innerHTML = ROUTES({pathname})
-      }) 
-      
+      }
+      window.onNavigate(pathnameEmployee)
       // Object.defineProperty(window, 'localStorage', { value: localStorageMock })
       // window.localStorage.setItem('user', JSON.stringify({
       //   type: 'Employee'
       // }))
 
-      expect(onNavigateMock('#employee/bills')).toHaveBeenCalled()
+      expect(pathname).toEqual('#employee/bills')
       // expect(window.location.hash).toBe("#employee/bill/")
-      // selectionner layout-icon1 et vérifier si highlighted
       const billIcon = screen.getByTestId('layout-icon1')
       expect(billIcon).toBeInTheDocument()
       expect(billIcon).toHaveClass('active-icon')
@@ -51,6 +67,7 @@ describe("Given I am connected as an employee", () => {
 })
 
 // test unitaire
+// à revoir
 
 describe("Given I am user connected as Employee", () => {
   describe("When I navigate to the bills", async () => {
@@ -80,14 +97,14 @@ describe("Given I am user connected as Employee", () => {
         window.localStorage.setItem('user', JSON.stringify({
           type: 'Employee'
         }))
-        const html = BillUI({data:[]})
+        const html = BillsUI({data:[]})
         document.body.innerHTML = html
         const onNavigate = (pathname) => {
           document.body.innerHTML = ROUTES({ pathname })
         }
         const firestore = null
         const bill = new Bill({
-          document, onNavigate, firestore, bills, localStorage: window.localStorage
+          document, onNavigate, firestore, localStorage: window.localStorage
         })
 
         const handleClickIconEye = jest.fn(bill.handleClickIconEye)
@@ -104,6 +121,7 @@ describe("Given I am user connected as Employee", () => {
 })
 
 // test d'intégration GET
+// à revoir
 
 describe("Given I am a user connected as Employee", () => {
   describe("When I navigate to the bills", async () => {

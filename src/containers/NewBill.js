@@ -32,12 +32,12 @@ export default class NewBill {
     if(extension === 'jpg' || extension === 'jpeg' || extension === 'png') {
       this.firestore
         .storage
-        .ref(`justificatifs/${file.value}`)
+        .ref(`justificatifs/${fileDetails.name}`)
         .put(fileDetails)
         .then(snapshot => snapshot.ref.getDownloadURL())
         .then(url => {
           this.fileUrl = url
-          this.fileName = fileName
+          this.fileName = fileDetails.name
         })
       error.style.display = "none"
       console.log('ok', file)
