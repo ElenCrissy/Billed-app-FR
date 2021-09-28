@@ -4,13 +4,14 @@ import BillsUI from "../views/BillsUI.js"
 import { bills } from "../fixtures/bills.js"
 import Bills from "../containers/Bills.js"
 import firebase from "../__mocks__/firebase"
-import localStorageMock from '../__mocks__/localStorage'
-// import { Router } from "express"
-// ***
-import { ROUTES } from "../constants/routes.js"
+import { localStorageMock } from '../__mocks__/localStorage'
+import {ROUTES, ROUTES_PATH} from "../constants/routes.js"
 import {router} from "../app/Router.js"
 import LoadingPage from "../views/LoadingPage.js"
 import ErrorPage from "../views/ErrorPage.js"
+import {Router} from "express"
+import Firestore from "../app/Firestore";
+
 
 // à revoir
 describe("Given I am connected as an employee", () => {
@@ -35,21 +36,25 @@ describe("Given I am connected as an employee", () => {
 
     // à revoir
     test("Then bill icon in vertical layout should be highlighted", () => {
-      const html = BillsUI({data:[]})
-      document.body.innerHTML = html
-      //to-do write expect expression 
+      // const html = BillsUI({data:[]})
+      // document.body.innerHTML = html
+      //to-do write expect expression
+      jest.mock('Firestore')
+      Firestore.bills = () => ({ bills, get: jest.fn().mockImplementation(() => Promise.resolve(value))})
+      Object.defineProperty(window, 'localStorage', { value: localStorageMock })
+      window.localStorage.setItem('user', JSON.stringify({
+        type: 'Employee'
+      }))
+      Object.defineProperty(window, 'location', { value: { hash : ROUTES_PATH['Bills'] } })
+      document.body.innerHTML = `<div id="root"></div>`
+      Router()
+
       const pathnameEmployee = '#employee/bills'
       const onNavigate = (pathname) => {
         document.body.innerHTML = ROUTES({pathname})
       }
-      window.onNavigate(pathnameEmployee)
-      // Object.defineProperty(window, 'localStorage', { value: localStorageMock })
-      // window.localStorage.setItem('user', JSON.stringify({
-      //   type: 'Employee'
-      // }))
-
-      expect(pathname).toEqual('#employee/bills')
-      // expect(window.location.hash).toBe("#employee/bill/")
+      onNavigate(pathnameEmployee)
+      expect(window.location.hash).toBe("#employee/bill/")
       const billIcon = screen.getByTestId('layout-icon1')
       expect(billIcon).toBeInTheDocument()
       expect(billIcon).toHaveClass('active-icon')
@@ -70,7 +75,7 @@ describe("Given I am connected as an employee", () => {
 // à revoir
 
 describe("Given I am user connected as Employee", () => {
-  describe("When I navigate to the bills", async () => {
+  describe("When I navigate the bills", async () => {
     const getSpy = jest.spyOn(firebase, "get")
     const bills = await firebase.get()
 
@@ -102,7 +107,7 @@ describe("Given I am user connected as Employee", () => {
         const onNavigate = (pathname) => {
           document.body.innerHTML = ROUTES({ pathname })
         }
-        const firestore = null
+        const firestore = jest.fn()
         const bill = new Bill({
           document, onNavigate, firestore, localStorage: window.localStorage
         })
