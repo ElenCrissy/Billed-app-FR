@@ -17,18 +17,16 @@ import Firestore from "../app/Firestore";
 describe("Given I am connected as an employee", () => {
   describe("When page is loading", () => {
     test("Then Loading Page is returned", () => {
-      const html = BillsUI({data : loading})
-      document.body.innerHTML = html
-      LoadingPage()
-      expect(LoadingPage).toEqual(html)
+      const html = BillsUI({loading : true})
+      expect(LoadingPage()).toEqual(html)
     })
   })
 
   describe("When page is not loading", () => {
     test("Then error page is returned", () => {
-      const html = BillsUI({data : error})
-      document.body.innerHTML = html
-      expect(ErrorPage(error)).toEqual(html)
+      const html = BillsUI({error : "true"})
+      const errorMessage = "true"
+      expect(ErrorPage(errorMessage)).toEqual(html)
     })
   })
 
@@ -39,12 +37,6 @@ describe("Given I am connected as an employee", () => {
       // const html = BillsUI({data:[]})
       // document.body.innerHTML = html
       //to-do write expect expression
-      jest.mock(Firestore)
-      Firestore.bills = () => ({ bills, get: jest.fn().mockImplementation(() => Promise.resolve(value))})
-      Object.defineProperty(window, 'localStorage', { value: localStorageMock })
-      window.localStorage.setItem('user', JSON.stringify({
-        type: 'Employee'
-      }))
       Object.defineProperty(window, 'location', { value: { hash : ROUTES_PATH['Bills'] } })
       document.body.innerHTML = `<div id="root"></div>`
       Router()
