@@ -6,14 +6,13 @@ import Bills from "../containers/Bills.js"
 import firebase from "../__mocks__/firebase"
 import { localStorageMock } from '../__mocks__/localStorage'
 import {ROUTES, ROUTES_PATH} from "../constants/routes.js"
-import {router} from "../app/Router.js"
+import Router from "../app/Router.js"
 import LoadingPage from "../views/LoadingPage.js"
 import ErrorPage from "../views/ErrorPage.js"
-import {Router} from "express"
+// import {Router} from "express"
 import Firestore from "../app/Firestore";
 
 
-// à revoir
 describe("Given I am connected as an employee", () => {
   describe("When page is loading", () => {
     test("Then Loading Page is returned", () => {
@@ -37,9 +36,8 @@ describe("Given I am connected as an employee", () => {
       // const html = BillsUI({data:[]})
       // document.body.innerHTML = html
       //to-do write expect expression
-      Object.defineProperty(window, 'location', { value: { hash : ROUTES_PATH['Bills'] } })
-      document.body.innerHTML = `<div id="root"></div>`
       Router()
+      document.body.innerHTML = screen.getByTestId()
 
       const pathnameEmployee = '#employee/bills'
       const onNavigate = (pathname) => {
