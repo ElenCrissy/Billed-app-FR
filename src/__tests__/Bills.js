@@ -9,8 +9,9 @@ import {ROUTES, ROUTES_PATH} from "../constants/routes.js"
 import Router from "../app/Router.js"
 import LoadingPage from "../views/LoadingPage.js"
 import ErrorPage from "../views/ErrorPage.js"
-// import {Router} from "express"
 import Firestore from "../app/Firestore";
+import Dashboard from "../containers/Dashboard";
+import DashboardUI from "../views/DashboardUI";
 
 
 describe("Given I am connected as an employee", () => {
@@ -36,15 +37,20 @@ describe("Given I am connected as an employee", () => {
       // const html = BillsUI({data:[]})
       // document.body.innerHTML = html
       //to-do write expect expression
-      Router()
-      document.body.innerHTML = screen.getByTestId()
 
       const pathnameEmployee = '#employee/bills'
       const onNavigate = (pathname) => {
-        document.body.innerHTML = ROUTES({pathname})
+        document.body.innerHTML = ROUTES({pathname : pathname})
       }
-      onNavigate(pathnameEmployee)
-      expect(window.location.hash).toBe("#employee/bill/")
+
+      const bills = new Bills({
+        document, onNavigate, firestore: null, localStorage: null
+      })
+      const html = BillsUI({})
+      document.body.innerHTML = html
+      //Router()
+
+      expect(window.location.hash).toEqual(pathnameEmployee)
       const billIcon = screen.getByTestId('layout-icon1')
       expect(billIcon).toBeInTheDocument()
       expect(billIcon).toHaveClass('active-icon')
