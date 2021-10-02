@@ -12,6 +12,7 @@ import ErrorPage from "../views/ErrorPage.js"
 import Firestore from "../app/Firestore";
 import Dashboard from "../containers/Dashboard";
 import DashboardUI from "../views/DashboardUI";
+import * as path from "path";
 
 
 describe("Given I am connected as an employee", () => {
@@ -38,21 +39,26 @@ describe("Given I am connected as an employee", () => {
       // document.body.innerHTML = html
       //to-do write expect expression
 
-      const pathnameEmployee = '#employee/bills'
-      const onNavigate = (pathname) => {
-        document.body.innerHTML = ROUTES({pathname : pathname})
-      }
-      // const bills = new Bills({
-      //   document, onNavigate, firestore: null, localStorage: null
-      // })
-      // const html = BillsUI({data : bills})
-      // document.body.innerHTML = html
-
+      Object.defineProperty(window, 'localStorage', {value : localStorageMock})
+      window.localStorage.setItem('user', JSON.stringify({
+            type : 'Employee'
+      }))
+      Object.defineProperty(window, 'location', {value : {hash: ROUTES_PATH['Bills']}})
+      document.body.innerHTML = `<div id='root'></div>`
       Router()
-      const html = ROUTES({pathname : ROUTES_PATH['Bills']})
-      document.body.innerHTML = html
 
-      expect(window.location.hash).toEqual(pathnameEmployee)
+      const pathnameBills = '#employee/bills'
+      const onNavigate = (pathname) => {
+        document.body.innerHTML = ROUTES({pathname})
+      }
+
+      const html = ROUTES({pathname : pathnameBills})
+      document.body.innerHTML = html
+      // const root = screen.getByTestId('root')
+      // console.log(root)
+      onNavigate(pathnameBills)
+
+      expect(window.location.hash).toEqual(pathnameBills)
       const billIcon = screen.getByTestId('layout-icon1')
       expect(billIcon).toBeInTheDocument()
       expect(billIcon).toHaveClass('active-icon')
