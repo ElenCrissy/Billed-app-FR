@@ -42,13 +42,13 @@ describe("Given I am connected as an employee", () => {
       const onNavigate = (pathname) => {
         document.body.innerHTML = ROUTES({pathname : pathname})
       }
+      Router()
+      const html = BillsUI({data : bills})
+      document.body.innerHTML = html
 
       const bills = new Bills({
         document, onNavigate, firestore: null, localStorage: null
       })
-      const html = BillsUI({})
-      document.body.innerHTML = html
-      //Router()
 
       expect(window.location.hash).toEqual(pathnameEmployee)
       const billIcon = screen.getByTestId('layout-icon1')
