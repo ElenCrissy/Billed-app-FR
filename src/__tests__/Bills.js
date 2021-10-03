@@ -35,31 +35,34 @@ describe("Given I am connected as an employee", () => {
 
     // à revoir
     test("Then bill icon in vertical layout should be highlighted", () => {
-      // const html = BillsUI({data:[]})
+      const html = BillsUI({data:[]})
       // document.body.innerHTML = html
       //to-do write expect expression
 
       // Object.defineProperty(window, 'localStorage', {value : localStorageMock})
-      // window.localStorage.setItem('user', JSON.stringify({
-      //       type : 'Employee',
-      //       status : 'connected'
-      // }))
+      window.localStorage.setItem('user', JSON.stringify({
+            type : 'Employee',
+            status : 'connected'
+      }))
       // Object.defineProperty(window, 'location', {value : {hash: ROUTES_PATH['Bills']}})
 
+      const onNavigate = (pathname) => {
+        document.body.innerHTML = ROUTES({ pathname })
+      }
       document.body.innerHTML = `<div id='root' data-testid="root"></div>`
       Router()
       const root = screen.getByTestId('root')
       root.innerHTML = ROUTES({ pathname: ROUTES_PATH['Bills']})
+      // const truc = new Bills({document, onNavigate})
 
       const pathnameBills = '#employee/bills'
       expect(ROUTES_PATH['Bills']).toEqual(pathnameBills)
 
-      // const html = BillsUI({data:[]})
-      // document.body.innerHTML = html
-      //
-      // const billIcon = screen.getByTestId('icon-window')
-      // expect(billIcon).toBeInTheDocument()
-      // expect(billIcon).toHaveClass('active-icon')
+      // expect(root.innerHTML).toEqual(html)
+
+      const billIcon = screen.getByTestId('icon-window')
+      expect(billIcon).toBeTruthy()
+      expect(billIcon.classList.contains('active-icon')).toBe(true)
     })
 
     test("Then bills should be ordered from earliest to latest", () => {
