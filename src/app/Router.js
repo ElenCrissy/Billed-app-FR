@@ -47,7 +47,8 @@ export default () => {
     } else if (pathname === ROUTES_PATH['NewBill']) {
       rootDiv.innerHTML = ROUTES({ pathname, loading: true })
       new NewBill({ document, onNavigate, firestore, localStorage })
-      const divIcon1 = document.getElementById('icon-window')
+      const divIcon1 = document.getElementById('layout-icon1')
+      divIcon1.dataset['testid'] = 'icon-window'
       const divIcon2 = document.getElementById('layout-icon2')
       divIcon1.classList.remove('active-icon')
       divIcon2.classList.add('active-icon')

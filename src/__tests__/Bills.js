@@ -52,10 +52,14 @@ describe("Given I am connected as an employee", () => {
       root.innerHTML = ROUTES({ pathname: ROUTES_PATH['Bills']})
 
       const pathnameBills = '#employee/bills'
-      expect(window.location.hash).toEqual(pathnameBills)
-      const billIcon = screen.getByTestId('icon-window')
-      expect(billIcon).toBeInTheDocument()
-      expect(billIcon).toHaveClass('active-icon')
+      expect(ROUTES_PATH['Bills']).toEqual(pathnameBills)
+
+      // const html = BillsUI({data:[]})
+      // document.body.innerHTML = html
+      //
+      // const billIcon = screen.getByTestId('icon-window')
+      // expect(billIcon).toBeInTheDocument()
+      // expect(billIcon).toHaveClass('active-icon')
     })
 
     test("Then bills should be ordered from earliest to latest", () => {
