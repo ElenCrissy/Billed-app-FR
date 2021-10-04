@@ -11,10 +11,7 @@ import { ROUTES, ROUTES_PATH } from "../constants/routes.js"
 export default () => {
   const rootDiv = document.getElementById('root')
   rootDiv.dataset['testid'] = 'root'
-  // const truc = ROUTES_PATH['Login']
-  // console.log(truc)
   rootDiv.innerHTML = ROUTES({ pathname: window.location.pathname })
-  // rootDiv.innerHTML = ROUTES({ pathname: ROUTES_PATH['Login'] })
 
   window.onNavigate = (pathname) => {
 
