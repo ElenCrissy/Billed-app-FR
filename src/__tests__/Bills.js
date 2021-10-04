@@ -81,12 +81,37 @@ describe("Given I am connected as an employee", () => {
 // à revoir
 
 describe("Given I am user connected as Employee", () => {
-  describe("When I navigate the bills", async () => {
-    const getSpy = jest.spyOn(firebase, "get")
-    const bills = await firebase.get()
+  describe("When I navigate the bills", () => {
 
-    test.each(bills)("bill should have info and status", () => {
-      expect(getSpy).toHaveBeenCalled()
+    test("bills should have info and status", async () => {
+      // const getSpy = jest.spyOn(firebase, "get")
+      // const bills = await firebase.get()
+
+      // expect(getSpy).toHaveBeenCalled()
+
+      const onNavigate = (pathname) => {
+        document.body.innerHTML = ROUTES({ pathname })
+      }
+
+      Object.defineProperty(window, 'localStorage', { value: localStorageMock })
+      window.localStorage.setItem('user', JSON.stringify({
+        type: 'Employee'
+      }))
+
+      document.body.innerHTML = `<div id='root' data-testid="root"></div>`
+      Router()
+      const root = screen.getByTestId('root')
+      const path = ROUTES_PATH['Bills']
+      root.innerHTML = ROUTES({ pathname: path})
+      const bills = new Bills({
+        document, onNavigate, firestore: null, localStorage: window.localStorage
+      })
+      const getBills = jest.fn()
+      bills.getBills()
+
+      const html = BillsUI({ data: bills })
+
+      document.body.innerHTML = html
 
       const billType = screen.getByTestId("bill-type")
       const billAmount = screen.getByTestId("bill-amount")
@@ -96,13 +121,13 @@ describe("Given I am user connected as Employee", () => {
       expect(iconEye).toBeTruthy()
       expect(billType).toEqual(bill.type)
       expect(billAmount).toEqual(bill.amount)
-      expect(billDate).toHaveText(bill.date)
+      expect(billDate).toEqual(bill.date)
       expect(billStatus).toEqual(bill.status)
     })
 
     describe("When I click on icon-eye", () => {
 
-      test.each(bills)("Then opens modal with image", () => {
+      test("Then opens modal with image", () => {
   
         Object.defineProperty(window, 'localStorage', { value: localStorageMock })
         window.localStorage.setItem('user', JSON.stringify({
