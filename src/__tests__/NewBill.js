@@ -1,11 +1,11 @@
-import { screen } from "@testing-library/dom"
-import { getByTestId } from "@testing-library/dom"
+import { screen, getByTestId } from "@testing-library/dom"
 import NewBillUI from "../views/NewBillUI.js"
 import NewBill from "../containers/NewBill.js"
 import { htmlPrefilter } from "jquery"
 import userEvent from "@testing-library/user-event"
 import '@testing-library/jest-dom'
 import firebase from "../__mocks__/firebase"
+import {ROUTES} from "../constants/routes";
 
 // à revoir
 
@@ -46,9 +46,29 @@ describe("Given I am connected as an employee", () => {
     })
 
     test("Then I can submit the form", () => {
-      // récupère valeur des champs remplis
-      // lancement de createBill
-      // onNavigate routepath Bills
+      const html = NewBillUI()
+      document.body.innerHTML = html
+      console.log(html)
+      // const createBill = jest.fn()
+      const onNavigate = (pathname) => {
+        document.body.innerHTML = ROUTES({ pathname })
+      }
+      const firestore = null
+      const newBill = new NewBill({
+        document, onNavigate, firestore, localStorage : window.localStorage
+      } )
+
+      const date = screen.getByTestId('datepicker')
+      date.value = Date.now()
+
+      const submitBtn = screen.getByTestId('btn-submit')
+      expect(submitBtn).toBeTruthy()
+
+      const handleSubmit = jest.fn(newBill.handleSubmit)
+      submitBtn.addEventListener('click', handleSubmit)
+      userEvent.click(submitBtn)
+      expect(handleSubmit).toHaveBeenCalled()
+
     })
   })
 })
