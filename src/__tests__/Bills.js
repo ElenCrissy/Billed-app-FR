@@ -39,31 +39,19 @@ describe("Given I am connected as an employee", () => {
       // document.body.innerHTML = html
       //to-do write expect expression
 
-      // Object.defineProperty(window, 'localStorage', {value : localStorageMock})
-      window.localStorage.setItem('user', JSON.stringify({
-            type : 'Employee',
-      }))
-      // Object.defineProperty(window, 'location', {value : {hash: ROUTES_PATH['Bills']}})
 
-      // const onNavigate = (pathname) => {
-      //   document.body.innerHTML = ROUTES({ pathname })
-      // }
-      const pathnameBills = '#employee/bills'
+      window.localStorage.setItem('user', JSON.stringify({
+        type : 'Employee',
+      }))
       document.body.innerHTML = `<div id='root' data-testid="root"></div>`
       Router()
-      const root = screen.getByTestId('root')
-      const path = ROUTES_PATH['Bills']
-      root.innerHTML = ROUTES({ pathname: path})
-
-      expect(ROUTES_PATH['Bills']).toEqual(pathnameBills)
-
-      // let user = localStorage.getItem('user')
-      // user = JSON.parse(user)
-      // expect(user.type).toEqual('Employee')
+      window.onNavigate(ROUTES_PATH['Bills'])
 
       const billIcon = screen.getByTestId('icon-window')
-      expect(billIcon).toBeTruthy()
-      expect(billIcon.classList.contains('active-icon')).toBe(true)
+      expect(billIcon).toHaveClass('active-icon')
+
+
+
     })
 
     test("Then bills should be ordered from earliest to latest", () => {
