@@ -43,13 +43,23 @@ describe("Given I am connected as an employee", () => {
       window.localStorage.setItem('user', JSON.stringify({
         type : 'Employee',
       }))
+      // window.firebase = {
+      //   firestore : () => ({
+      //     collection : () => ({
+      //       get : jest.fn(() => Promise.resolve([]))
+      //     })
+      //   })
+      // }
+
       window.firebase = {
         firestore : () => ({
-          collection : () => ({
+          collection : {
             get : jest.fn(() => Promise.resolve([]))
-          })
+          }
         })
       }
+
+
       document.body.innerHTML = `<div id='root' data-testid="root"></div>`
       Router()
       window.onNavigate(ROUTES_PATH['Bills'])
