@@ -38,37 +38,22 @@ describe("Given I am connected as an employee", () => {
       // const html = BillsUI({data:[]})
       // document.body.innerHTML = html
       //to-do write expect expression
-
-
       window.localStorage.setItem('user', JSON.stringify({
         type : 'Employee',
       }))
-      // window.firebase = {
-      //   firestore : () => ({
-      //     collection : () => ({
-      //       get : jest.fn(() => Promise.resolve([]))
-      //     })
-      //   })
-      // }
-
       window.firebase = {
         firestore : () => ({
-          collection : {
+          collection : () => ({
             get : jest.fn(() => Promise.resolve([]))
-          }
+          })
         })
       }
-
-
       document.body.innerHTML = `<div id='root' data-testid="root"></div>`
       Router()
       window.onNavigate(ROUTES_PATH['Bills'])
 
       const billIcon = screen.getByTestId('icon-window')
       expect(billIcon.classList.contains('active-icon')).toBeTruthy()
-
-
-
     })
 
     test("Then bills should be ordered from earliest to latest", () => {
@@ -89,36 +74,32 @@ describe("Given I am user connected as Employee", () => {
   describe("When I navigate the bills", () => {
 
     test("bills should have info and status", () => {
-      const onNavigate = (pathname) => {
-        document.body.innerHTML = ROUTES({ pathname })
-      }
+      // const onNavigate = (pathname) => {
+      //   document.body.innerHTML = ROUTES({ pathname })
+      // }
+      // Object.defineProperty(window, 'localStorage', { value: localStorageMock })
 
-      Object.defineProperty(window, 'localStorage', { value: localStorageMock })
       window.localStorage.setItem('user', JSON.stringify({
-        type: 'Employee'
+        type: 'Employee',
       }))
 
       document.body.innerHTML = `<div id='root' data-testid="root"></div>`
       Router()
-      const root = screen.getByTestId('root')
-      const path = ROUTES_PATH['Bills']
-      root.innerHTML = ROUTES({ pathname: path})
-      const bills = new Bills({
-        document, onNavigate, firestore: null, localStorage: window.localStorage
-      })
-      const mock = {
-        bills: {
-          getBills : jest.fn()
-        }
-      }
-      mock.bills.getBills()
+      // const root = screen.getByTestId('root')
+      // const path = ROUTES_PATH['Bills']
+      // root.innerHTML = ROUTES({ pathname: path})
+      // const bills = new Bills({
+      //   document, onNavigate, firestore: null, localStorage: window.localStorage
+      // })
+      // const mock = {
+      //   bills: {
+      //     getBills : jest.fn()
+      //   }
+      // }
+      // mock.bills.getBills()
 
       const html = BillsUI({ data: [bills] })
-
       document.body.innerHTML = html
-      console.log(document.body.innerHTML)
-
-
       // const bill = {
       //   type,
       //   amount,
@@ -130,11 +111,8 @@ describe("Given I am user connected as Employee", () => {
       const billDate = screen.getByTestId("bill-date")
       const billStatus = screen.getByTestId("bill-status")
       const iconEye = screen.getByTestId("icon-eye")
+      console.log(document.body.innerHTML)
       expect(iconEye).toBeTruthy()
-      // expect(billType).toEqual(bill.type)
-      // expect(billAmount).toEqual(bill.amount)
-      // expect(billDate).toEqual(bill.date)
-      // expect(billStatus).toEqual(bill.status)
       expect(billType).toBeTruthy()
       expect(billAmount).toBeTruthy()
       expect(billDate).toBeTruthy()
