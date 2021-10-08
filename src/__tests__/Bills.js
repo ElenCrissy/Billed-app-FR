@@ -82,12 +82,18 @@ describe("Given I am user connected as Employee", () => {
       window.localStorage.setItem('user', JSON.stringify({
         type: 'Employee',
       }))
+      window.firebase = {
+        firestore : () => ({
+          collection : () => ({
+            get : jest.fn(() => Promise.resolve([]))
+          })
+        })
+      }
 
       document.body.innerHTML = `<div id='root' data-testid="root"></div>`
       Router()
-      // const root = screen.getByTestId('root')
-      // const path = ROUTES_PATH['Bills']
-      // root.innerHTML = ROUTES({ pathname: path})
+      window.onNavigate(ROUTES_PATH['Bills'])
+
       // const bills = new Bills({
       //   document, onNavigate, firestore: null, localStorage: window.localStorage
       // })
@@ -100,12 +106,7 @@ describe("Given I am user connected as Employee", () => {
 
       const html = BillsUI({ data: [bills] })
       document.body.innerHTML = html
-      // const bill = {
-      //   type,
-      //   amount,
-      //   date,
-      //   status
-      // }
+
       const billType = screen.getByTestId("bill-type")
       const billAmount = screen.getByTestId("bill-amount")
       const billDate = screen.getByTestId("bill-date")
