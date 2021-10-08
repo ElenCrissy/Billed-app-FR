@@ -123,16 +123,31 @@ describe("Given I am user connected as Employee", () => {
 
       test("Then opens modal with image", () => {
 
-        Object.defineProperty(window, 'localStorage', { value: localStorageMock })
+        // Object.defineProperty(window, 'localStorage', { value: localStorageMock })
         window.localStorage.setItem('user', JSON.stringify({
           type: 'Employee'
         }))
-        // Object.defineProperty(window, 'location', {value : {hash: ROUTES_PATH['Bills']}})
-
         // document.body.innerHTML = `<div id='root' data-testid="root"></div>`
         // Router()
-        // const root = screen.getByTestId('root')
-        // root.innerHTML = ROUTES({ pathname: ROUTES_PATH['Bills']})
+        // window.onNavigate(ROUTES_PATH['Bills'])
+
+        // const bills = new Bills({
+        //   document, onNavigate, firebase, localStorage: window.localStorage
+        // })
+        // const mock = {
+        //   bills: {
+        //     getBills : jest.fn().mockReturnThis(),
+        //     // then : jest.fn().mockImplementation(() => Promise.resolve({
+        //     //   ???
+        //     // }))
+        //   }
+        // }
+        // mock.bills.getBills()
+        // expect(mock.bills.getBills).toHaveBeenCalled()
+
+        const html = BillsUI({data:[]})
+        document.body.innerHTML = html
+        console.log(document.body.innerHTML)
 
         const onNavigate = (pathname) => {
           document.body.innerHTML = ROUTES({ pathname })
@@ -141,20 +156,6 @@ describe("Given I am user connected as Employee", () => {
         const bills = new Bills({
           document, onNavigate, firestore, localStorage: window.localStorage
         })
-        const mock = {
-          bills: {
-            getBills : jest.fn().mockReturnThis(),
-            // then : jest.fn().mockImplementation(() => Promise.resolve({
-            //   ???
-            // }))
-          }
-        }
-        mock.bills.getBills()
-        expect(mock.bills.getBills).toHaveBeenCalled()
-
-        const html = BillsUI({data:[bills]})
-        document.body.innerHTML = html
-        console.log(document.body.innerHTML)
 
         const eye = screen.getByTestId('icon-eye')
         const handleClickIconEye = jest.fn(bills.handleClickIconEye)
