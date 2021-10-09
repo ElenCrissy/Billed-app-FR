@@ -71,95 +71,25 @@ describe("Given I am connected as an employee", () => {
 // à revoir
 
 describe("Given I am user connected as Employee", () => {
-  describe("When I navigate the bills", () => {
+  describe("When I click on new bill button", () => {
 
-    test("bills should have info and status", () => {
-      // const onNavigate = (pathname) => {
-      //   document.body.innerHTML = ROUTES({ pathname })
-      // }
-      // Object.defineProperty(window, 'localStorage', { value: localStorageMock })
-
-      window.localStorage.setItem('user', JSON.stringify({
-        type: 'Employee',
-      }))
-      window.firebase = {
-        firestore : () => ({
-          collection : () => ({
-            get : jest.fn(() => Promise.resolve([]))
-          })
-        })
-      }
-
-      document.body.innerHTML = `<div id='root' data-testid="root"></div>`
-      Router()
-      window.onNavigate(ROUTES_PATH['Bills'])
-
-      // const bills = new Bills({
-      //   document, onNavigate, firestore: null, localStorage: window.localStorage
-      // })
-      // const mock = {
-      //   bills: {
-      //     getBills : jest.fn()
-      //   }
-      // }
-      // mock.bills.getBills()
-
-      const html = BillsUI({ data: [bills] })
+    test("Then I should navigate to new bill page", () => {
+      const html = BillsUI({data:[]})
       document.body.innerHTML = html
+      const handleClickNewBill = jest.fn(bills.handleClickNewBill)
+      const btnNewBill = screen.getByTestId('btn-new-bill')
+      btnNewBill.addEventListener('click', handleClickNewBill)
+      userEvent.click(btnNewBill)
+      expect(handleClickNewBill).toHaveBeenCalled()
 
-      const billType = screen.getByTestId("bill-type")
-      const billAmount = screen.getByTestId("bill-amount")
-      const billDate = screen.getByTestId("bill-date")
-      const billStatus = screen.getByTestId("bill-status")
-      const iconEye = screen.getByTestId("icon-eye")
-      console.log(document.body.innerHTML)
-      expect(iconEye).toBeTruthy()
-      expect(billType).toBeTruthy()
-      expect(billAmount).toBeTruthy()
-      expect(billDate).toBeTruthy()
-      expect(billStatus).toBeTruthy()
     })
 
     describe("When I click on icon-eye", () => {
-
       test("Then opens modal", () => {
-
-        // Object.defineProperty(window, 'localStorage', { value: localStorageMock })
-        window.localStorage.setItem('user', JSON.stringify({
-          type: 'Employee'
-        }))
-        // document.body.innerHTML = `<div id='root' data-testid="root"></div>`
-        // Router()
-        // window.onNavigate(ROUTES_PATH['Bills'])
-
-        // const bills = new Bills({
-        //   document, onNavigate, firebase, localStorage: window.localStorage
-        // })
-        // const mock = {
-        //   bills: {
-        //     getBills : jest.fn().mockReturnThis(),
-        //     // then : jest.fn().mockImplementation(() => Promise.resolve({
-        //     //   ???
-        //     // }))
-        //   }
-        // }
-        // mock.bills.getBills()
-        // expect(mock.bills.getBills).toHaveBeenCalled()
-
-        const html = BillsUI({data:[]})
+        const html = BillsUI({data:bills})
         document.body.innerHTML = html
-        console.log(document.body.innerHTML)
-
-        const onNavigate = (pathname) => {
-          document.body.innerHTML = ROUTES({ pathname })
-        }
-        const firestore = null
-        const bills = new Bills({
-          document, onNavigate, firestore, localStorage: window.localStorage
-        })
-
-        const eye = screen.getByTestId('icon-eye')
         const handleClickIconEye = jest.fn(bills.handleClickIconEye)
+        const eye = screen.getAllByTestId('icon-eye')[0]
         eye.addEventListener('click', handleClickIconEye)
         userEvent.click(eye)
         expect(handleClickIconEye).toHaveBeenCalled()
