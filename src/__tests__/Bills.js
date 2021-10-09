@@ -122,7 +122,7 @@ describe("Given I am user connected as Employee", () => {
 
     describe("When I click on icon-eye", () => {
 
-      test("Then opens modal with image", () => {
+      test("Then opens modal", () => {
 
         // Object.defineProperty(window, 'localStorage', { value: localStorageMock })
         window.localStorage.setItem('user', JSON.stringify({
@@ -176,10 +176,13 @@ describe("Given I am user connected as Employee", () => {
 
 describe("Given I am a user connected as Employee", () => {
   describe("When I navigate to the bills", async () => {
-    const getSpy = jest.spyOn(firebase, "get")
-    const bills = await firebase.get()
-    expect(getSpy).toHaveBeenCalledTimes(1)
-    expect(bills.data.length).toBe(4)
+
+    test("fetches bills from mock API GET", async () => {
+      const getSpy = jest.spyOn(firebase, "get")
+      const bills = await firebase.get()
+      expect(getSpy).toHaveBeenCalledTimes(1)
+      expect(bills.data.length).toBe(4)
+    })
 
     test("fetches bills from an API and fails with 404 message error", async () => {
       firebase.get.mockImplementationOnce(() =>
