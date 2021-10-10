@@ -44,12 +44,34 @@ describe("Given I am connected as an employee", () => {
       // userEvent.upload(input, filePDF)
       // expect(firestoreMock.storage.put).not.toHaveBeenCalled()
     })
+  })
 
-    test("Then I can submit the form", () => {
+  describe("When I am on New Bill page and I click on submit button with right input", () => {
+    test("Then new bill should be submitted and I will be back on bills page", () => {
       const html = NewBillUI()
       document.body.innerHTML = html
-      console.log(html)
-      // const createBill = jest.fn()
+      const billMock = {
+        type : "Transports",
+        date: "2021-08-09",
+        amount: "100",
+        pct: "10",
+        file: "bill.png"
+      }
+
+      const type = screen.getByTestId("expense-type")
+      const transports = screen.getByText("Transports")
+      const truc = transports.innerText
+      userEvent.selectOptions(type, transports)
+      expect(truc).toEqual(billMock.type)
+
+
+      const date = screen.getByTestId("datepicker")
+      const amount = screen.getByTestId("amount")
+      const pct = screen.getByTestId("pct")
+      const file = screen.getByTestId("file")
+
+
+
       const onNavigate = (pathname) => {
         document.body.innerHTML = ROUTES({ pathname })
       }
@@ -58,9 +80,6 @@ describe("Given I am connected as an employee", () => {
         document, onNavigate, firestore, localStorage : window.localStorage
       } )
 
-      const date = screen.getByTestId('datepicker')
-      date.value = Date.now()
-
       const submitBtn = screen.getByTestId('btn-submit')
       expect(submitBtn).toBeTruthy()
 
@@ -68,7 +87,6 @@ describe("Given I am connected as an employee", () => {
       submitBtn.addEventListener('click', handleSubmit)
       userEvent.click(submitBtn)
       expect(handleSubmit).toHaveBeenCalled()
-
     })
   })
 })

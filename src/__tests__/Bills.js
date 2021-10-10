@@ -32,7 +32,6 @@ describe("Given I am connected as an employee", () => {
   })
 
   describe("When I am on Bills Page", () => {
-
     // à revoir
     test("Then bill icon in vertical layout should be highlighted", () => {
       // const html = BillsUI({data:[]})
@@ -67,9 +66,6 @@ describe("Given I am connected as an employee", () => {
   })
 })
 
-// test unitaire
-// à revoir
-
 describe("Given I am user connected as Employee", () => {
   describe("When I click on new bill button", () => {
 
@@ -81,7 +77,6 @@ describe("Given I am user connected as Employee", () => {
       btnNewBill.addEventListener('click', handleClickNewBill)
       userEvent.click(btnNewBill)
       expect(handleClickNewBill).toHaveBeenCalled()
-
     })
 
     describe("When I click on icon-eye", () => {
@@ -93,7 +88,6 @@ describe("Given I am user connected as Employee", () => {
         eye.addEventListener('click', handleClickIconEye)
         userEvent.click(eye)
         expect(handleClickIconEye).toHaveBeenCalled()
-
         const modale = screen.getByTestId('modaleFile')
         expect(modale).toBeTruthy()
       })
@@ -119,7 +113,6 @@ describe("Given I am a user connected as Employee", () => {
       firebase.get.mockImplementationOnce(() =>
         Promise.reject(new Error("Erreur 404"))
       )
-
       const html = BillsUI({ error: "Erreur 404" })
       document.body.innerHTML = html
       const message = await screen.getByText(/Erreur 404/)
