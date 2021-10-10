@@ -115,9 +115,11 @@ describe("Given I am a user connected as Employee", () => {
     })
 
     test("fetches bills from an API and fails with 404 message error", async () => {
+      // TypeError: _firebase.default.get.mockImplementationOnce is not a function
       firebase.get.mockImplementationOnce(() =>
         Promise.reject(new Error("Erreur 404"))
       )
+
       const html = BillsUI({ error: "Erreur 404" })
       document.body.innerHTML = html
       const message = await screen.getByText(/Erreur 404/)
