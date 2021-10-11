@@ -1,4 +1,4 @@
-import { screen, getByTestId } from "@testing-library/dom"
+import {screen, getByTestId, fireEvent} from "@testing-library/dom"
 import NewBillUI from "../views/NewBillUI.js"
 import NewBill from "../containers/NewBill.js"
 import { htmlPrefilter } from "jquery"
@@ -58,14 +58,15 @@ describe("Given I am connected as an employee", () => {
         file: "bill.png"
       }
 
-      const type = screen.getByTestId("expense-type")
-      const transports = screen.getByText("Transports")
-      const truc = transports.innerText
-      userEvent.selectOptions(type, transports)
-      expect(truc).toEqual(billMock.type)
+      // const type = screen.getByTestId("expense-type")
+      // userEvent.selectOptions(type, screen.getByText("Transports"))
+      // expect(type.value).toEqual(billMock.type)
 
 
       const date = screen.getByTestId("datepicker")
+      fireEvent.change(date, {target : {value : billMock.date}})
+      expect(date.value).toEqual(billMock.date)
+
       const amount = screen.getByTestId("amount")
       const pct = screen.getByTestId("pct")
       const file = screen.getByTestId("file")
