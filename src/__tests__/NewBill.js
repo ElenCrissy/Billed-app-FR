@@ -6,7 +6,7 @@ import userEvent from "@testing-library/user-event"
 import '@testing-library/jest-dom'
 import firebase from "../__mocks__/firebase"
 import { localStorageMock } from '../__mocks__/localStorage'
-import {ROUTES} from "../constants/routes";
+import {ROUTES, ROUTES_PATH} from "../constants/routes";
 
 // à revoir
 
@@ -18,7 +18,6 @@ describe("Given I am connected as an employee", () => {
 
       const input = screen.getByTestId("file")
       input.value = ''
-
       expect(input).toBeInTheDocument()
 
       const firestoreMock = {
@@ -37,13 +36,34 @@ describe("Given I am connected as an employee", () => {
 
       const newBill = new NewBill({document, firestore : firestoreMock})  
 
-      //put appelé avec png
       userEvent.upload(input, filePNG)
       expect(firestoreMock.storage.put).toHaveBeenCalled()
 
-      //put non appelé avec autre
-      // userEvent.upload(input, filePDF)
-      // expect(firestoreMock.storage.put).not.toHaveBeenCalled()
+      userEvent.upload(input, filePDF)
+      expect(firestoreMock.storage.put).not.toHaveBeenCalled()
+    })
+
+    describe("When file uploaded is a pdf", () => {
+      test("Then error message is showed", () => {
+        const html = NewBillUI()
+        document.body.innerHTML = html
+        const firestoreMock = {
+          storage : {
+            ref : jest.fn().mockReturnThis(),
+            put : jest.fn().mockImplementation(() => Promise.resolve({
+              ref: {
+                getDownloadURL : jest.fn()
+              }
+            }))
+          }
+        }
+        const newBill = new NewBill({document, firestore : firestoreMock})
+        const input = screen.getByTestId("file")
+        const filePDF = new File(['hello'], 'hello.pdf', {type: 'application/pdf'})
+        userEvent.upload(input, filePDF)
+        const errorMessage = screen.getByTestId('errorMessage')
+        expect(errorMessage).toBeTruthy()
+      })
     })
   })
 
@@ -63,33 +83,33 @@ describe("Given I am connected as an employee", () => {
         fileName: "",
       }
 
-      const type = screen.getByTestId("expense-type")
-      userEvent.selectOptions(type, screen.getByText("Transports"))
-      expect(type.value).toEqual(billMock.type)
+      // const type = screen.getByTestId("expense-type")
+      // userEvent.selectOptions(type, screen.getByText("Transports"))
+      // expect(type.value).toBe(billMock.type)
 
-      const name = screen.getByTestId("expense-name")
-      fireEvent.change(type, {target : {value : billMock.name}})
-      expect(name.value).toEqual(billMock.name)
-
-      const amount = screen.getByTestId("amount")
-      fireEvent.change(amount, {target : {value : billMock.amount}})
-      expect(amount.value).toBe(billMock.amount)
-
-      const date = screen.getByTestId("datepicker")
-      fireEvent.change(date, {target : {value : billMock.date}})
-      expect(date.value).toEqual(billMock.date)
-
-      const vat = screen.getByTestId("vat")
-      fireEvent.change(vat, {target : {value : billMock.vat}})
-      expect(vat.value).toEqual(billMock.vat)
-
-      const pct = screen.getByTestId("pct")
-      fireEvent.change(pct, {target : {value : billMock.pct}})
-      expect(pct.value).toEqual(billMock.pct)
-
-      const commentary = screen.getByTestId("commentary")
-      fireEvent.change(commentary, {target : {value : billMock.commentary}})
-      expect(commentary.value).toEqual(billMock.commentary)
+      // const name = screen.getByTestId("expense-name")
+      // fireEvent.change(name, {target : {value : billMock.name}})
+      // expect(name.value).toEqual(billMock.name)
+      //
+      // const amount = screen.getByTestId("amount")
+      // fireEvent.change(amount, {target : {value : billMock.amount}})
+      // expect(amount.value).toBe(billMock.amount)
+      //
+      // const date = screen.getByTestId("datepicker")
+      // fireEvent.change(date, {target : {value : billMock.date}})
+      // expect(date.value).toEqual(billMock.date)
+      //
+      // const vat = screen.getByTestId("vat")
+      // fireEvent.change(vat, {target : {value : billMock.vat}})
+      // expect(vat.value).toEqual(billMock.vat)
+      //
+      // const pct = screen.getByTestId("pct")
+      // fireEvent.change(pct, {target : {value : billMock.pct}})
+      // expect(pct.value).toEqual(billMock.pct)
+      //
+      // const commentary = screen.getByTestId("commentary")
+      // fireEvent.change(commentary, {target : {value : billMock.commentary}})
+      // expect(commentary.value).toEqual(billMock.commentary)
 
       // const file = screen.getByTestId("file")
       // fireEvent.change(file, {target : {value : billMock.file}})
@@ -115,6 +135,10 @@ describe("Given I am connected as an employee", () => {
       submitBtn.addEventListener('submit', handleSubmit)
       fireEvent.submit(submitBtn)
       expect(handleSubmit).toHaveBeenCalled()
+
+      const createBill = jest.fn(newBill.createBill)
+      expect(createBill).toHaveBeenCalled()
+      expect(newBill.onNavigate(ROUTES_PATH['Bills'])).toHaveBeenCalled()
     })
   })
 })

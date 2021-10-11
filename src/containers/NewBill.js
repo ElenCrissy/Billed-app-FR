@@ -11,6 +11,7 @@ export default class NewBill {
     const file = this.document.querySelector(`input[data-testid="file"]`)
     const error = this.document.createElement('div')
     error.classList.add('error')
+    error.dataset.testid = 'errorMessage'
     error.appendChild(this.document.createTextNode('Seuls les fichiers .jpg, .jpeg, .png sont valides.'))
     file.parentNode.insertBefore(error, file.nextSibling)
     error.style.display = "none"
