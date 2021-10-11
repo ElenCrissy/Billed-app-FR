@@ -5,6 +5,7 @@ import { htmlPrefilter } from "jquery"
 import userEvent from "@testing-library/user-event"
 import '@testing-library/jest-dom'
 import firebase from "../__mocks__/firebase"
+import { localStorageMock } from '../__mocks__/localStorage'
 import {ROUTES} from "../constants/routes";
 
 // à revoir
@@ -52,26 +53,52 @@ describe("Given I am connected as an employee", () => {
       document.body.innerHTML = html
       const billMock = {
         type : "Transports",
-        date: "2021-08-09",
+        name : "Test",
         amount: "100",
-        pct: "10",
-        file: "bill.png"
+        date: "2021-08-09",
+        vat : "10",
+        pct: "20",
+        commentary: "commentary",
+        fileUrl: "",
+        fileName: "",
       }
 
-      // const type = screen.getByTestId("expense-type")
-      // userEvent.selectOptions(type, screen.getByText("Transports"))
-      // expect(type.value).toEqual(billMock.type)
+      const type = screen.getByTestId("expense-type")
+      userEvent.selectOptions(type, screen.getByText("Transports"))
+      expect(type.value).toEqual(billMock.type)
 
+      const name = screen.getByTestId("expense-name")
+      fireEvent.change(type, {target : {value : billMock.name}})
+      expect(name.value).toEqual(billMock.name)
+
+      const amount = screen.getByTestId("amount")
+      fireEvent.change(amount, {target : {value : billMock.amount}})
+      expect(amount.value).toBe(billMock.amount)
 
       const date = screen.getByTestId("datepicker")
       fireEvent.change(date, {target : {value : billMock.date}})
       expect(date.value).toEqual(billMock.date)
 
-      const amount = screen.getByTestId("amount")
+      const vat = screen.getByTestId("vat")
+      fireEvent.change(vat, {target : {value : billMock.vat}})
+      expect(vat.value).toEqual(billMock.vat)
+
       const pct = screen.getByTestId("pct")
-      const file = screen.getByTestId("file")
+      fireEvent.change(pct, {target : {value : billMock.pct}})
+      expect(pct.value).toEqual(billMock.pct)
 
+      const commentary = screen.getByTestId("commentary")
+      fireEvent.change(commentary, {target : {value : billMock.commentary}})
+      expect(commentary.value).toEqual(billMock.commentary)
 
+      // const file = screen.getByTestId("file")
+      // fireEvent.change(file, {target : {value : billMock.file}})
+      // expect(file.value).toEqual(billMock.file)
+
+      Object.defineProperty(window, 'localStorage', { value: localStorageMock})
+      window.localStorage.setItem('user', JSON.stringify({
+        type: 'Employee',
+      }))
 
       const onNavigate = (pathname) => {
         document.body.innerHTML = ROUTES({ pathname })
@@ -85,8 +112,8 @@ describe("Given I am connected as an employee", () => {
       expect(submitBtn).toBeTruthy()
 
       const handleSubmit = jest.fn(newBill.handleSubmit)
-      submitBtn.addEventListener('click', handleSubmit)
-      userEvent.click(submitBtn)
+      submitBtn.addEventListener('submit', handleSubmit)
+      fireEvent.submit(submitBtn)
       expect(handleSubmit).toHaveBeenCalled()
     })
   })
