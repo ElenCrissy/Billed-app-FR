@@ -71,32 +71,41 @@ describe("Given I am user connected as Employee", () => {
     test("Then I should navigate to new bill page", () => {
       const html = BillsUI({data:[]})
       document.body.innerHTML = html
-      const handleClickNewBill = jest.fn(bills.handleClickNewBill)
+      const onNavigate = (pathname) => {
+        document.body.innerHTML = ROUTES({pathname})
+      }
+      const bill = new Bills({document, onNavigate, firestore: null, localStorage: window.localStorage,})
+      const handleClickNewBill = jest.fn(bill.handleClickNewBill)
       const btnNewBill = screen.getByTestId('btn-new-bill')
       btnNewBill.addEventListener('click', handleClickNewBill)
       userEvent.click(btnNewBill)
       expect(handleClickNewBill).toHaveBeenCalled()
-      // this.onNavigate(ROUTES_PATH['NewBill'])
-      // const onNavigate = (pathname) => {
-      //   document.body.innerHTML = ROUTES({ pathname })
-      // }
-      // window.onNavigate(ROUTES_PATH['NewBill'])
+      expect(screen.getByText("Envoyer une note de frais")).toBeTruthy()
     })
   })
 
   describe("When I click on icon-eye", () => {
-    test("Then opens modal", () => {
+    test("Then opens modal", async () => {
       const html = BillsUI({data:bills})
       document.body.innerHTML = html
-      const handleClickIconEye = jest.fn(bills.handleClickIconEye)
+      const onNavigate = (pathname) => {
+        document.body.innerHTML = ROUTES({pathname})
+      }
+      const bill = new Bills({document, onNavigate, firestore: null, localStorage: window.localStorage,})
       const eye = screen.getAllByTestId('icon-eye')[0]
+      const handleClickIconEye = jest.fn(bill.handleClickIconEye(eye))
+      // $.fn.modal = jest.fn()
+      // const handleClickIconEye = jest.fn((e) => {
+      //   e.preventDefault()
+      //   bill.handleClickIconEye(eye)
+      // })
       eye.addEventListener('click', handleClickIconEye)
       userEvent.click(eye)
       expect(handleClickIconEye).toHaveBeenCalled()
       const modale = screen.getByTestId('modaleFile')
       expect(modale).toBeTruthy()
-      // expect(modale.classList.contains('show')).toBe(true)
-      expect(modale).toHaveProperty('display', 'block')
+      expect(modale.classList.contains('show')).toBe(true)
+      // expect(modale).toHaveProperty('display', 'block')
     })
   })
 })
