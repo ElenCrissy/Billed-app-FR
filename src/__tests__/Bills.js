@@ -68,7 +68,6 @@ describe("Given I am connected as an employee", () => {
 
 describe("Given I am user connected as Employee", () => {
   describe("When I click on new bill button", () => {
-
     test("Then I should navigate to new bill page", () => {
       const html = BillsUI({data:[]})
       document.body.innerHTML = html
@@ -77,29 +76,34 @@ describe("Given I am user connected as Employee", () => {
       btnNewBill.addEventListener('click', handleClickNewBill)
       userEvent.click(btnNewBill)
       expect(handleClickNewBill).toHaveBeenCalled()
+      // this.onNavigate(ROUTES_PATH['NewBill'])
+      // const onNavigate = (pathname) => {
+      //   document.body.innerHTML = ROUTES({ pathname })
+      // }
+      // window.onNavigate(ROUTES_PATH['NewBill'])
     })
+  })
 
-    describe("When I click on icon-eye", () => {
-      test("Then opens modal", () => {
-        const html = BillsUI({data:bills})
-        document.body.innerHTML = html
-        const handleClickIconEye = jest.fn(bills.handleClickIconEye)
-        const eye = screen.getAllByTestId('icon-eye')[0]
-        eye.addEventListener('click', handleClickIconEye)
-        userEvent.click(eye)
-        expect(handleClickIconEye).toHaveBeenCalled()
-        const modale = screen.getByTestId('modaleFile')
-        expect(modale).toBeTruthy()
-      })
+  describe("When I click on icon-eye", () => {
+    test("Then opens modal", () => {
+      const html = BillsUI({data:bills})
+      document.body.innerHTML = html
+      const handleClickIconEye = jest.fn(bills.handleClickIconEye)
+      const eye = screen.getAllByTestId('icon-eye')[0]
+      eye.addEventListener('click', handleClickIconEye)
+      userEvent.click(eye)
+      expect(handleClickIconEye).toHaveBeenCalled()
+      const modale = screen.getByTestId('modaleFile')
+      expect(modale).toBeTruthy()
+      // expect(modale.classList.contains('show')).toBe(true)
+      expect(modale).toHaveProperty('display', 'block')
     })
   })
 })
 
 // test d'intégration GET
-// à revoir
-
 describe("Given I am a user connected as Employee", () => {
-  describe("When I navigate to the bills", async () => {
+  describe("When I navigate to the bills", () => {
 
     test("fetches bills from mock API GET", async () => {
       const getSpy = jest.spyOn(firebase, "get")
