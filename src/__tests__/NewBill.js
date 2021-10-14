@@ -8,8 +8,6 @@ import firebase from "../__mocks__/firebase"
 import { localStorageMock } from '../__mocks__/localStorage'
 import {ROUTES, ROUTES_PATH} from "../constants/routes";
 
-// à revoir
-
 describe("Given I am connected as an employee", () => {
   describe("When I am on NewBill Page", () => {
     test("Then only jpg, jpeg and png files should be accepted", () => {
@@ -19,7 +17,6 @@ describe("Given I am connected as an employee", () => {
       const input = screen.getByTestId("file")
       input.value = ''
       expect(input).toBeInTheDocument()
-
       const firestoreMock = {
         storage : {
           ref : jest.fn().mockReturnThis(),
@@ -30,23 +27,14 @@ describe("Given I am connected as an employee", () => {
           }))
         }
       }
-
       const filePNG = new File(['hello'], 'hello.png', {type: 'image/png'})
-      const filePDF = new File(['hello'], 'hello.pdf', {type: 'application/pdf'})
-
-      const newBill = new NewBill({document, firestore : firestoreMock})  
-
+      const newBill = new NewBill({document, firestore : firestoreMock})
       userEvent.upload(input, filePNG)
       expect(firestoreMock.storage.put).toHaveBeenCalledTimes(1)
-      input.value = ''
-      userEvent.upload(input, filePDF)
-      expect(firestoreMock.storage.put).not.toHaveBeenCalledTimes(1)
-      expect(input.value).toBe('')
-
     })
 
     describe("When file uploaded is a pdf", () => {
-      test("Then error message is showed", () => {
+      test("Then file is not accepted and error message is showed", () => {
         const html = NewBillUI()
         document.body.innerHTML = html
         const firestoreMock = {
@@ -63,6 +51,8 @@ describe("Given I am connected as an employee", () => {
         const input = screen.getByTestId("file")
         const filePDF = new File(['hello'], 'hello.pdf', {type: 'application/pdf'})
         userEvent.upload(input, filePDF)
+        expect(firestoreMock.storage.put).not.toHaveBeenCalledTimes(1)
+        expect(input.value).toBe('')
         const errorMessage = screen.getByTestId('errorMessage')
         expect(errorMessage).toBeVisible()
       })
@@ -85,37 +75,40 @@ describe("Given I am connected as an employee", () => {
         fileName: "",
       }
 
-      // const type = screen.getByTestId("expense-type")
-      // userEvent.selectOptions(type, screen.getByText("Transports"))
-      // expect(type.value).toBe(billMock.type)
+      const type = screen.getByTestId("expense-type")
+      userEvent.selectOptions(type, screen.getByText("Transports"))
+      expect(type.value).toBe(billMock.type)
 
-      // const name = screen.getByTestId("expense-name")
-      // fireEvent.change(name, {target : {value : billMock.name}})
-      // expect(name.value).toEqual(billMock.name)
-      //
-      // const amount = screen.getByTestId("amount")
-      // fireEvent.change(amount, {target : {value : billMock.amount}})
-      // expect(amount.value).toBe(billMock.amount)
-      //
-      // const date = screen.getByTestId("datepicker")
-      // fireEvent.change(date, {target : {value : billMock.date}})
-      // expect(date.value).toEqual(billMock.date)
-      //
-      // const vat = screen.getByTestId("vat")
-      // fireEvent.change(vat, {target : {value : billMock.vat}})
-      // expect(vat.value).toEqual(billMock.vat)
-      //
-      // const pct = screen.getByTestId("pct")
-      // fireEvent.change(pct, {target : {value : billMock.pct}})
-      // expect(pct.value).toEqual(billMock.pct)
-      //
-      // const commentary = screen.getByTestId("commentary")
-      // fireEvent.change(commentary, {target : {value : billMock.commentary}})
-      // expect(commentary.value).toEqual(billMock.commentary)
+      const name = screen.getByTestId("expense-name")
+      fireEvent.change(name, {target : {value : billMock.name}})
+      expect(name.value).toEqual(billMock.name)
 
-      // const file = screen.getByTestId("file")
-      // fireEvent.change(file, {target : {value : billMock.file}})
-      // expect(file.value).toEqual(billMock.file)
+      const amount = screen.getByTestId("amount")
+      fireEvent.change(amount, {target : {value : billMock.amount}})
+      expect(amount.value).toBe(billMock.amount)
+
+      const date = screen.getByTestId("datepicker")
+      fireEvent.change(date, {target : {value : billMock.date}})
+      expect(date.value).toEqual(billMock.date)
+
+      const vat = screen.getByTestId("vat")
+      fireEvent.change(vat, {target : {value : billMock.vat}})
+      expect(vat.value).toEqual(billMock.vat)
+
+      const pct = screen.getByTestId("pct")
+      fireEvent.change(pct, {target : {value : billMock.pct}})
+      expect(pct.value).toEqual(billMock.pct)
+
+      const commentary = screen.getByTestId("commentary")
+      fireEvent.change(commentary, {target : {value : billMock.commentary}})
+      expect(commentary.value).toEqual(billMock.commentary)
+
+      const file = screen.getByTestId("file")
+      fireEvent.change(file, {target : {value : billMock.fileName}})
+      expect(file.value).toEqual(billMock.fileName)
+
+      const submitBtn = screen.getByTestId('btn-submit')
+      expect(submitBtn).toBeTruthy()
 
       Object.defineProperty(window, 'localStorage', { value: localStorageMock})
       window.localStorage.setItem('user', JSON.stringify({
@@ -130,17 +123,14 @@ describe("Given I am connected as an employee", () => {
         document, onNavigate, firestore, localStorage : window.localStorage
       } )
 
-      const submitBtn = screen.getByTestId('btn-submit')
-      expect(submitBtn).toBeTruthy()
-
       const handleSubmit = jest.fn(newBill.handleSubmit)
       submitBtn.addEventListener('submit', handleSubmit)
       fireEvent.submit(submitBtn)
       expect(handleSubmit).toHaveBeenCalled()
-
-      const createBill = jest.fn(newBill.createBill)
-      expect(createBill).toHaveBeenCalled()
-      expect(newBill.onNavigate(ROUTES_PATH['Bills'])).toHaveBeenCalled()
+      //
+      // const createBill = jest.fn(newBill.createBill)
+      // expect(createBill).toHaveBeenCalled()
+      // expect(newBill.onNavigate(ROUTES_PATH['Bills'])).toHaveBeenCalled()
     })
   })
 })
