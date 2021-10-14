@@ -37,10 +37,12 @@ describe("Given I am connected as an employee", () => {
       const newBill = new NewBill({document, firestore : firestoreMock})  
 
       userEvent.upload(input, filePNG)
-      expect(firestoreMock.storage.put).toHaveBeenCalled()
-
+      expect(firestoreMock.storage.put).toHaveBeenCalledTimes(1)
+      input.value = ''
       userEvent.upload(input, filePDF)
-      expect(firestoreMock.storage.put).not.toHaveBeenCalled()
+      expect(firestoreMock.storage.put).not.toHaveBeenCalledTimes(1)
+      expect(input.value).toBe('')
+
     })
 
     describe("When file uploaded is a pdf", () => {

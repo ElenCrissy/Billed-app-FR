@@ -28,7 +28,8 @@ export default class NewBill {
     // let fileName = filePath[filePath.length-1]
     // Bug 3
     //si extension est différente de jpg, jpeg ou png => erreur
-    const extension = fileDetails.name
+    const fileName = fileDetails.name
+    const extension = fileName.split(".").pop()
     const error = this.document.querySelector('.error')
     if(extension === 'jpg' || extension === 'jpeg' || extension === 'png') {
       this.firestore
