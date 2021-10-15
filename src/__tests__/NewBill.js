@@ -127,10 +127,10 @@ describe("Given I am connected as an employee", () => {
       submitBtn.addEventListener('submit', handleSubmit)
       fireEvent.submit(submitBtn)
       expect(handleSubmit).toHaveBeenCalled()
-      //
-      // const createBill = jest.fn(newBill.createBill)
-      // expect(createBill).toHaveBeenCalled()
-      // expect(newBill.onNavigate(ROUTES_PATH['Bills'])).toHaveBeenCalled()
+
+      const createBill = jest.fn(newBill.createBill)
+      expect(createBill).toHaveBeenCalled()
+      expect(newBill.onNavigate(ROUTES_PATH['Bills'])).toHaveBeenCalled()
     })
   })
 })
@@ -148,6 +148,29 @@ describe("Given I am a user connected as Employee", () => {
       })),
       catch : jest.fn()
     }
+
+    test("Add bill to mock API POST", async () => {
+
+      const getSpyPost = jest.spyOn(firebase, "post")
+      const newBill = {
+        id: "test",
+        status: "pending",
+        pct: 10,
+        amount: 300,
+        email: "charlotte.santos@billed.com",
+        name: "Bill1",
+        vat: "20",
+        fileName: "",
+        date: "2021-10-10",
+        commentAdmin: "",
+        commentary: "",
+        type: "Transports",
+        fileUrl: "",
+      }
+      const bills = await firebase.post(newBill)
+      expect(getSpyPost).toHaveBeenCalledTimes(1)
+      expect(bills.data.length).toBe(5)
+    });
 
     test("send new bill to mock API POST", async () => {
        const postSpy = jest.spyOn(firebase, "post")
