@@ -140,15 +140,15 @@ describe("Given I am connected as an employee", () => {
 // test d'intégration POST
 describe("Given I am a user connected as Employee", () => {
   describe("When I navigate to New Bill", () => {
-    const firestoreMock = {
-      bills : jest.fn().mockReturnThis(),
-      add : jest.fn().mockImplementation(() => Promise.resolve({
-        ref: {
-          onNavigate : jest.fn()
-        }
-      })),
-      catch : jest.fn()
-    }
+    // const firestoreMock = {
+    //   bills : jest.fn().mockReturnThis(),
+    //   add : jest.fn().mockImplementation(() => Promise.resolve({
+    //     ref: {
+    //       onNavigate : jest.fn()
+    //     }
+    //   })),
+    //   catch : jest.fn()
+    // }
 
     test("Add bill to mock API POST", async () => {
       const getSpyPost = jest.spyOn(firebase, "post")
