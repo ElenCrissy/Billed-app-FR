@@ -32,7 +32,6 @@ describe("Given I am connected as an employee", () => {
   })
 
   describe("When I am on Bills Page", () => {
-    // à revoir
     test("Then bill icon in vertical layout should be highlighted", () => {
       // const html = BillsUI({data:[]})
       // document.body.innerHTML = html
@@ -92,19 +91,9 @@ describe("Given I am user connected as Employee", () => {
       const bill = new Bills({document, onNavigate, firestore: null, localStorage: window.localStorage,})
       const eye = screen.getAllByTestId('icon-eye')[1]
       const handleClickIconEye = jest.fn(bill.handleClickIconEye(eye))
-      // $.fn.modal = jest.fn()
-      // const handleClickIconEye = jest.fn((e) => {
-      //   e.preventDefault()
-      //   bill.handleClickIconEye(eye)
-      // })
       eye.addEventListener('click', handleClickIconEye)
       userEvent.click(eye)
       expect(handleClickIconEye).toHaveBeenCalled()
-      // const modale = screen.getByTestId('modaleFile')
-      // expect(modale).toBeTruthy()
-      // expect(modale.classList.contains('show')).toBe(true)
-      //
-      // expect(modale).toHaveAttribute('aria-hidden')
     })
   })
 })

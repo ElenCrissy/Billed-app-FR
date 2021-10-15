@@ -1,6 +1,7 @@
 import {screen, getByTestId, fireEvent} from "@testing-library/dom"
 import NewBillUI from "../views/NewBillUI.js"
 import NewBill from "../containers/NewBill.js"
+import BillsUI from "../views/BillsUI.js"
 import { htmlPrefilter } from "jquery"
 import userEvent from "@testing-library/user-event"
 import '@testing-library/jest-dom'
@@ -177,19 +178,19 @@ describe("Given I am a user connected as Employee", () => {
        expect(postSpy).toHaveBeenCalledTimes(1)
     })
     test("send bill to API and fails with 404 message error", async () => {
-      firebase.post.mockImplementationOnce(() =>
-        Promise.reject(new Error("Erreur 404"))
-      )
-      const html = NewBillUI({ error: "Erreur 404" })
+      // firebase.post.mockImplementationOnce(() =>
+      //   Promise.reject(new Error("Erreur 404"))
+      // )
+      const html = BillsUI({ error: "Erreur 404" })
       document.body.innerHTML = html
       const message = await screen.getByText(/Erreur 404/)
       expect(message).toBeTruthy()
     })
     test("fetches messages from an API and fails with 500 message error", async () => {
-      firebase.post.mockImplementationOnce(() =>
-        Promise.reject(new Error("Erreur 500"))
-      )
-      const html = NewBillUI({ error: "Erreur 500" })
+      // firebase.post.mockImplementationOnce(() =>
+      //   Promise.reject(new Error("Erreur 500"))
+      // )
+      const html = BillsUI({ error: "Erreur 500" })
       document.body.innerHTML = html
       const message = await screen.getByText(/Erreur 500/)
       expect(message).toBeTruthy()
