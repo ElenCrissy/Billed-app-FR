@@ -151,7 +151,6 @@ describe("Given I am a user connected as Employee", () => {
     }
 
     test("Add bill to mock API POST", async () => {
-
       const getSpyPost = jest.spyOn(firebase, "post")
       const newBill = {
         id: "test",
@@ -173,10 +172,6 @@ describe("Given I am a user connected as Employee", () => {
       expect(bills.data.length).toBe(5)
     });
 
-    test("send new bill to mock API POST", async () => {
-       const postSpy = jest.spyOn(firebase, "post")
-       expect(postSpy).toHaveBeenCalledTimes(1)
-    })
     test("send bill to API and fails with 404 message error", async () => {
       // firebase.post.mockImplementationOnce(() =>
       //   Promise.reject(new Error("Erreur 404"))
