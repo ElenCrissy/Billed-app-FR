@@ -125,7 +125,7 @@ describe("Given I am connected as an employee", () => {
       })
 
       const handleSubmit = jest.fn(newBill.handleSubmit)
-      submitBtn.addEventListener('submit', handleSubmit)
+      submitBtn.addEventListener('click', handleSubmit)
       fireEvent.submit(submitBtn)
       expect(handleSubmit).toHaveBeenCalled()
 
