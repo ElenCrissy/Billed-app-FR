@@ -151,7 +151,7 @@ describe("Given I am a user connected as Employee", () => {
     // }
 
     test("Add bill to mock API POST", async () => {
-      const getSpyPost = jest.spyOn(firebase, "post")
+      const spyPost = jest.spyOn(firebase, "post")
       const newBill = {
         id: "test",
         status: "pending",
@@ -168,7 +168,7 @@ describe("Given I am a user connected as Employee", () => {
         fileUrl: "",
       }
       const bills = await firebase.post(newBill)
-      expect(getSpyPost).toHaveBeenCalledTimes(1)
+      expect(spyPost).toHaveBeenCalledTimes(1)
       expect(bills.data.length).toBe(5)
     });
 
