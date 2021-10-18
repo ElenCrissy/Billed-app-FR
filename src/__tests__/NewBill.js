@@ -124,8 +124,8 @@ describe("Given I am connected as an employee", () => {
         document, onNavigate, firestore, localStorage : window.localStorage
       })
 
-      const handleSubmit = jest.fn(newBill.handleSubmit)
-      submitBtn.addEventListener('click', handleSubmit)
+      const handleSubmit = jest.fn(newBill.handleSubmit('click'))
+      submitBtn.addEventListener('submit', handleSubmit)
       fireEvent.submit(submitBtn)
       expect(handleSubmit).toHaveBeenCalled()
 
@@ -140,16 +140,6 @@ describe("Given I am connected as an employee", () => {
 // test d'intégration POST
 describe("Given I am a user connected as Employee", () => {
   describe("When I navigate to New Bill", () => {
-    // const firestoreMock = {
-    //   bills : jest.fn().mockReturnThis(),
-    //   add : jest.fn().mockImplementation(() => Promise.resolve({
-    //     ref: {
-    //       onNavigate : jest.fn()
-    //     }
-    //   })),
-    //   catch : jest.fn()
-    // }
-
     test("Add bill to mock API POST", async () => {
       const spyPost = jest.spyOn(firebase, "post")
       const newBill = {
