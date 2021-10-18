@@ -60,6 +60,29 @@ describe("Given I am connected as an employee", () => {
     })
   })
 
+  describe("When I select a file with correct extension", () => {
+    test("Then file should be stored", () => {
+      const html = NewBillUI()
+      document.body.innerHTML = html
+      const firestoreMock = {
+        storage: {
+          ref: jest.fn().mockReturnThis(),
+          put: jest.fn().mockImplementation(() => Promise.resolve({
+            ref: {
+              getDownloadURL: jest.fn()
+            }
+          }))
+        }
+      }
+      const file = new File(['hello'], 'hello.png', {type: 'image/png'})
+      const newBill = new NewBill({document, firestore : firestoreMock})
+      const input = screen.getByTestId("file")
+      const handleChangeFile = jest.fn(newBill.handleChangeFile)
+      fireEvent.change(input, {target : {value : file.fileName}})
+      expect(handleChangeFile).toHaveBeenCalled()
+    })
+  })
+
   describe("When I am on New Bill page and I click on submit button with right input", () => {
     test("Then new bill should be submitted and I will be back on bills page", () => {
       const html = NewBillUI()
@@ -124,7 +147,7 @@ describe("Given I am connected as an employee", () => {
         document, onNavigate, firestore, localStorage : window.localStorage
       })
 
-      const handleSubmit = jest.fn(newBill.handleSubmit('click'))
+      const handleSubmit = jest.fn(newBill.handleSubmit())
       submitBtn.addEventListener('submit', handleSubmit)
       fireEvent.submit(submitBtn)
       expect(handleSubmit).toHaveBeenCalled()
