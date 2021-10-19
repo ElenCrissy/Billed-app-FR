@@ -32,7 +32,7 @@ export const card = (bill) => {
     firstAndLastNames.split('.')[0] : ''
   const lastName = firstAndLastNames.includes('.') ?
   firstAndLastNames.split('.')[1] : firstAndLastNames
-  console.log(bill.date)
+  // console.log(bill.date)
   return (`
     <div class='bill-card' id='open-bill${bill.id}' data-testid='open-bill${bill.id}'>
       <div class='bill-card-name-container'>
@@ -145,7 +145,9 @@ export default class {
       this.counter ++
     }
 
-    bills.forEach(bill => {
+    // filteredBills
+    filteredBills(bills, getStatus(this.index)).forEach(bill => {
+    // bills.forEach(bill => {
       $(`#open-bill${bill.id}`).click((e) => this.handleEditTicket(e, bill, bills))
     })
 

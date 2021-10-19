@@ -148,7 +148,7 @@ describe("Given I am connected as an employee", () => {
         document, onNavigate, firestore, localStorage : window.localStorage
       })
 
-      const handleSubmit = jest.fn(newBill.handleSubmit())
+      const handleSubmit = jest.fn(newBill.handleSubmit)
       submitBtn.addEventListener('submit', handleSubmit)
       fireEvent.submit(submitBtn)
       await handleSubmit()
