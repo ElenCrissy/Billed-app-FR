@@ -55,13 +55,13 @@ export default class NewBill {
     const email = JSON.parse(localStorage.getItem("user")).email
     const bill = {
       email,
-      type: e.target.querySelector(`select[data-testid="expense-type"]`).value,
-      name:  e.target.querySelector(`input[data-testid="expense-name"]`).value,
-      amount: parseInt(e.target.querySelector(`input[data-testid="amount"]`).value),
-      date:  e.target.querySelector(`input[data-testid="datepicker"]`).value,
-      vat: e.target.querySelector(`input[data-testid="vat"]`).value,
-      pct: parseInt(e.target.querySelector(`input[data-testid="pct"]`).value) || 20,
-      commentary: e.target.querySelector(`textarea[data-testid="commentary"]`).value,
+      type: document.querySelector(`select[data-testid="expense-type"]`).value,
+      name:  document.querySelector(`input[data-testid="expense-name"]`).value,
+      amount: parseInt(document.querySelector(`input[data-testid="amount"]`).value),
+      date:  document.querySelector(`input[data-testid="datepicker"]`).value,
+      vat: document.querySelector(`input[data-testid="vat"]`).value,
+      pct: parseInt(document.querySelector(`input[data-testid="pct"]`).value) || 20,
+      commentary: document.querySelector(`textarea[data-testid="commentary"]`).value,
       fileUrl: this.fileUrl,
       fileName: this.fileName,
       status: 'pending'

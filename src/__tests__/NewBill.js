@@ -132,9 +132,6 @@ describe("Given I am connected as an employee", () => {
       fireEvent.change(file, {target : {value : billMock.fileName}})
       expect(file.value).toEqual(billMock.fileName)
 
-      const submitBtn = screen.getByTestId('btn-submit')
-      expect(submitBtn).toBeTruthy()
-
       Object.defineProperty(window, 'localStorage', { value: localStorageMock})
       window.localStorage.setItem('user', JSON.stringify({
         type: 'Employee',
@@ -147,16 +144,17 @@ describe("Given I am connected as an employee", () => {
       const newBill = new NewBill({
         document, onNavigate, firestore, localStorage : window.localStorage
       })
+      const formNewBill = document.querySelector(`form[data-testid="form-new-bill"]`)
+      const spyOnAddEventListener = jest.spyOn(formNewBill, "addEventListener")
+      expect(spyOnAddEventListener).toHaveBeenCalled()
+      const spyOnHandleSubmit = jest.spyOn(newBill, "handleSubmit")
+      fireEvent.submit(formNewBill)
+      expect(spyOnHandleSubmit).toHaveBeenCalled()
 
-      const handleSubmit = jest.fn(newBill.handleSubmit)
-      submitBtn.addEventListener('submit', handleSubmit)
-      fireEvent.submit(submitBtn)
-      await handleSubmit()
-      expect(handleSubmit).toHaveBeenCalled()
-
-      const createBill = jest.fn(newBill.createBill)
-      expect(createBill).toHaveBeenCalled()
-      expect(newBill.onNavigate(ROUTES_PATH['Bills'])).toHaveBeenCalled()
+      const spyOnCreateBill = jest.spyOn(newBill, "createBill")
+      expect(spyOnCreateBill).toHaveBeenCalled()
+      // const spyOn
+      // expect().toHaveBeenCalled()
     })
   })
 })
