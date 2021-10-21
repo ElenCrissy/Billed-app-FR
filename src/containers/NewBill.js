@@ -7,7 +7,7 @@ export default class NewBill {
     this.onNavigate = onNavigate
     this.firestore = firestore
     const formNewBill = this.document.querySelector(`form[data-testid="form-new-bill"]`)
-    formNewBill.addEventListener("submit", this.handleSubmit)
+    formNewBill.addEventListener("submit",  (e) => this.handleSubmit(e))
     const file = this.document.querySelector(`input[data-testid="file"]`)
     const error = this.document.createElement('div')
     error.classList.add('error')
