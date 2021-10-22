@@ -145,8 +145,6 @@ describe("Given I am connected as an employee", () => {
         document, onNavigate, firestore, localStorage : window.localStorage
       })
       const formNewBill = document.querySelector(`form[data-testid="form-new-bill"]`)
-      const spyOnAddEventListener = jest.spyOn(formNewBill, "addEventListener")
-      // expect(spyOnAddEventListener).toHaveBeenCalled()
       const spyOnHandleSubmit = jest.spyOn(newBill, "handleSubmit")
       fireEvent.submit(formNewBill)
       expect(spyOnHandleSubmit).toHaveBeenCalled()
@@ -155,10 +153,6 @@ describe("Given I am connected as an employee", () => {
       newBill.createBill(billMock)
       expect(spyOnCreateBill).toHaveBeenCalled()
       expect(screen.getByText("Mes notes de frais")).toBeTruthy()
-
-      // const spyOnOnNavigate = jest.spyOn(newBill, "onNavigate")
-      // onNavigate(ROUTES_PATH['Bills'])
-      // expect(spyOnOnNavigate).toHaveBeenCalled()
     })
   })
 })
