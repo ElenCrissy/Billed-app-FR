@@ -7,7 +7,7 @@ export default class NewBill {
     this.onNavigate = onNavigate
     this.firestore = firestore
     const formNewBill = this.document.querySelector(`form[data-testid="form-new-bill"]`)
-    formNewBill.addEventListener("submit",  (e) => this.handleSubmit(e))
+    formNewBill.addEventListener("submit", (e) => this.handleSubmit(e))
     const file = this.document.querySelector(`input[data-testid="file"]`)
     const error = this.document.createElement('div')
     error.classList.add('error')
@@ -49,7 +49,7 @@ export default class NewBill {
       file.value = ""
     }
   }
-  handleSubmit = e => {
+  handleSubmit(e) {
     e.preventDefault()
     // console.log('e.target.querySelector(`input[data-testid="datepicker"]`).value', e.target.querySelector(`input[data-testid="datepicker"]`).value)
     const email = JSON.parse(localStorage.getItem("user")).email

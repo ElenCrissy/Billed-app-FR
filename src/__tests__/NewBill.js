@@ -146,15 +146,19 @@ describe("Given I am connected as an employee", () => {
       })
       const formNewBill = document.querySelector(`form[data-testid="form-new-bill"]`)
       const spyOnAddEventListener = jest.spyOn(formNewBill, "addEventListener")
-      expect(spyOnAddEventListener).toHaveBeenCalled()
+      // expect(spyOnAddEventListener).toHaveBeenCalled()
       const spyOnHandleSubmit = jest.spyOn(newBill, "handleSubmit")
       fireEvent.submit(formNewBill)
       expect(spyOnHandleSubmit).toHaveBeenCalled()
 
       const spyOnCreateBill = jest.spyOn(newBill, "createBill")
+      newBill.createBill(billMock)
       expect(spyOnCreateBill).toHaveBeenCalled()
-      // const spyOn
-      // expect().toHaveBeenCalled()
+      expect(screen.getByText("Mes notes de frais")).toBeTruthy()
+
+      // const spyOnOnNavigate = jest.spyOn(newBill, "onNavigate")
+      // onNavigate(ROUTES_PATH['Bills'])
+      // expect(spyOnOnNavigate).toHaveBeenCalled()
     })
   })
 })
