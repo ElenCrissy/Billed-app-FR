@@ -31,10 +31,16 @@ describe("Given I am connected as an employee", () => {
     })
   })
 
+  describe("When page has loaded", () => {
+    test("Then BillsUI is returned", () => {
+      const html = BillsUI({data : bills})
+      document.body.innerHTML = html
+      expect(html).toEqual(document.body.innerHTML)
+    })
+  })
+
   describe("When I am on Bills Page", () => {
     test("Then bill icon in vertical layout should be highlighted", () => {
-      // const html = BillsUI({data:[]})
-      // document.body.innerHTML = html
       //to-do write expect expression
       window.localStorage.setItem('user', JSON.stringify({
         type : 'Employee',

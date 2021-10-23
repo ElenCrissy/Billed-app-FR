@@ -20,6 +20,7 @@ const row = (bill) => {
   }
 
 // Bug 2
+// tri par dates avant création HTML de bill
 const rows = (data) => {
   if (data && data.length) {
     return data
