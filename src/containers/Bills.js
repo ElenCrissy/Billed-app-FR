@@ -45,9 +45,10 @@ export default class {
             try {
               return {
                 ...doc.data(),
-                // date: formatDate(doc.data().date),
+                // date: doc.data().date,
                 status: formatStatus(doc.data().status)
               }
+
             } catch(e) {
               // if for some reason, corrupted data was introduced, we manage here failing formatDate function
               // log the error and return unformatted date in that case
@@ -61,17 +62,17 @@ export default class {
           })
           .filter(bill => bill.email === userEmail)
 
-          // .sort(function (a,b){
-          //   let dateA = new Date(a.date).getTime()
-          //   let dateB = new Date(b.date).getTime()
-          //   return dateA < dateB ? 1 : -1
-          // })
-          //   .map((data) => {
-          //     return {
-          //       ...data,
-          //       date: formatDate(data.date)
-          //     }
-          //   })
+          .sort(function (a,b) {
+            let dateA = new Date(a.date).getTime()
+            let dateB = new Date(b.date).getTime()
+            return dateA < dateB ? 1 : -1
+          })
+          .map(data => {
+            return {
+              ...data,
+              date: formatDate(data.date)
+            }
+          })
 
           console.log('length', bills.length)
         return bills
