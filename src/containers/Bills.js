@@ -41,8 +41,6 @@ export default class {
       .get()
       .then(snapshot => {
         const bills = snapshot.docs
-            .sort((a, b) => ((a.date < b.date) ? 1 : -1))
-
             .map(doc => {
               try {
                 return {
@@ -64,20 +62,6 @@ export default class {
             })
 
             .filter(bill => bill.email === userEmail)
-
-
-          //   .sort(function (a,b) {
-          //   let dateA = new Date(a.date).getTime()
-          //   let dateB = new Date(b.date).getTime()
-          //   return dateA < dateB ? 1 : -1
-          // })
-
-            .map(doc => {
-              return {
-                ...doc.data(),
-                date: formatDate(doc.data().date)
-              }
-            })
 
           console.log('length', bills.length)
           return bills

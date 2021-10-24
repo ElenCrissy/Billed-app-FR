@@ -1,15 +1,18 @@
 import VerticalLayout from './VerticalLayout.js'
 import ErrorPage from "./ErrorPage.js"
 import LoadingPage from "./LoadingPage.js"
+import { formatDate } from "../app/format.js"
+
 
 import Actions from './Actions.js'
 
+// date au bon format
 const row = (bill) => {
   return (`
     <tr>
       <td data-testid="bill-type">${bill.type}</td>
       <td data-testid="bill-name">${bill.name}</td>
-      <td data-testid="bill-date">${bill.date}</td>
+      <td data-testid="bill-date">${formatDate(bill.date)}</td>
       <td data-testid="bill-amount">${bill.amount} €</td>
       <td data-testid="bill-status">${bill.status}</td>
       <td>
