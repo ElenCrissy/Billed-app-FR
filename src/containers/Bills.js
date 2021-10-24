@@ -41,41 +41,46 @@ export default class {
       .get()
       .then(snapshot => {
         const bills = snapshot.docs
-          .map(doc => {
-            try {
+            .sort((a, b) => ((a.date < b.date) ? 1 : -1))
+
+            .map(doc => {
+              try {
+                return {
+                  ...doc.data(),
+                  date: doc.data().date,
+                  status: formatStatus(doc.data().status)
+                }
+
+              } catch(e) {
+                // if for some reason, corrupted data was introduced, we manage here failing formatDate function
+                // log the error and return unformatted date in that case
+                console.log(e,'for',doc.data())
+                return {
+                  ...doc.data(),
+                  date: doc.data().date,
+                  status: formatStatus(doc.data().status)
+                }
+              }
+            })
+
+            .filter(bill => bill.email === userEmail)
+
+
+          //   .sort(function (a,b) {
+          //   let dateA = new Date(a.date).getTime()
+          //   let dateB = new Date(b.date).getTime()
+          //   return dateA < dateB ? 1 : -1
+          // })
+
+            .map(doc => {
               return {
                 ...doc.data(),
-                // date: doc.data().date,
-                status: formatStatus(doc.data().status)
+                date: formatDate(doc.data().date)
               }
-
-            } catch(e) {
-              // if for some reason, corrupted data was introduced, we manage here failing formatDate function
-              // log the error and return unformatted date in that case
-              console.log(e,'for',doc.data())
-              return {
-                ...doc.data(),
-                date: doc.data().date,
-                status: formatStatus(doc.data().status)
-              }
-            }
-          })
-          .filter(bill => bill.email === userEmail)
-
-          .sort(function (a,b) {
-            let dateA = new Date(a.date).getTime()
-            let dateB = new Date(b.date).getTime()
-            return dateA < dateB ? 1 : -1
-          })
-          .map(data => {
-            return {
-              ...data,
-              date: formatDate(data.date)
-            }
-          })
+            })
 
           console.log('length', bills.length)
-        return bills
+          return bills
       })
       .catch(error => error)
     }
