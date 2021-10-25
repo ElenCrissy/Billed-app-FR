@@ -166,8 +166,13 @@ describe("Given I am connected as an employee", () => {
       // expect(event.preventDefault).toBeCalled();
 
       const mockEvent = { preventDefault: jest.fn() };
-      fireEvent.submit(formNewBill, mockEvent);
-      expect(mockEvent.preventDefault).toBeCalled();
+      // fireEvent.submit(formNewBill, mockEvent);
+      expect(mockEvent.preventDefault).toHaveBeenCalled();
+
+      // const fakeEvent = { preventDefault: () => console.log('preventDefault') };
+      // formNewBill.simulate('submit', fakeEvent);
+      // expect(formNewBill.find(Notification).length).toBe(1);
+
 
       const spyOnCreateBill = jest.spyOn(newBill, "createBill")
       newBill.createBill(billMock)
