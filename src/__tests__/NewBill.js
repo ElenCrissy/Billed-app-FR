@@ -78,8 +78,11 @@ describe("Given I am connected as an employee", () => {
       const newBill = new NewBill({document, firestore : firestoreMock})
       const input = screen.getByTestId("file")
       const handleChangeFile = jest.fn(newBill.handleChangeFile)
+      // const spyOnHandleChangeFile = jest.spyOn(newBill, "handleChangeFile")
       fireEvent.change(input, {target : {files : [file]}})
+      // await spyOnHandleChangeFile()
       await handleChangeFile()
+      // expect(spyOnHandleChangeFile).toHaveBeenCalled()
       expect(handleChangeFile).toHaveBeenCalled()
     })
   })
@@ -148,6 +151,23 @@ describe("Given I am connected as an employee", () => {
       const spyOnHandleSubmit = jest.spyOn(newBill, "handleSubmit")
       fireEvent.submit(formNewBill)
       expect(spyOnHandleSubmit).toHaveBeenCalled()
+
+      // const submitEvent = new Event('submit');
+      // Object.assign(submitEvent, {preventDefault: jest.fn()});
+
+      // const event = new Event('submit')
+      // const preventDefault = Object.assign(jest.fn(), {preventDefault: () => {}})
+      // const preventDefault = jest.fn()
+      // Object.assign(event, {preventDefault: jest.fn()});
+      // expect(preventDefault).toHaveBeenCalledTimes(1);
+
+      // const event = { preventDefault: () => {} }
+      // const truc = jest.spyOn(event, 'preventDefault')
+      // expect(event.preventDefault).toBeCalled();
+
+      const mockEvent = { preventDefault: jest.fn() };
+      fireEvent.submit(formNewBill, mockEvent);
+      expect(mockEvent.preventDefault).toBeCalled();
 
       const spyOnCreateBill = jest.spyOn(newBill, "createBill")
       newBill.createBill(billMock)
