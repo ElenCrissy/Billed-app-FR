@@ -161,53 +161,6 @@ describe("Given I am connected as an employee", () => {
       expect(spyOnOnNavigate).toHaveBeenCalled()
 
       expect(screen.getByText("Mes notes de frais")).toBeTruthy()
-
-
-    })
-  })
-
-  describe("When I click on submit button", () => {
-    test("Then default action is not generated", () => {
-      const html = NewBillUI()
-      document.body.innerHTML = html
-      // Object.defineProperty(window, 'localStorage', { value: localStorageMock})
-      // window.localStorage.setItem('user', JSON.stringify({
-      //   type: 'Employee',
-      // }))
-      // const onNavigate = (pathname) => {
-      //   document.body.innerHTML = ROUTES({ pathname })
-      // }
-      // const firestore = null
-      // const newBill = new NewBill({
-      //   document, onNavigate, firestore, localStorage : window.localStorage
-      // })
-      const formNewBill = document.querySelector(`form[data-testid="form-new-bill"]`)
-      fireEvent.submit(formNewBill)
-      const event = new Event('submit')
-      Object.assign(event, {preventDefault: jest.fn()})
-      expect(event.preventDefault).toHaveBeenCalled()
-
-      // const submitEvent = new Event('submit');
-      // Object.assign(submitEvent, {preventDefault: jest.fn()});
-
-      // const event = new Event('submit')
-      // const preventDefault = Object.assign(jest.fn(), {preventDefault: () => {}})
-      // const preventDefault = jest.fn()
-      // Object.assign(event, {preventDefault: jest.fn()});
-      // expect(preventDefault).toHaveBeenCalledTimes(1);
-
-      // const event = { preventDefault: () => {} }
-      // const truc = jest.spyOn(event, 'preventDefault')
-      // expect(event.preventDefault).toBeCalled();
-
-      // const mockEvent = { preventDefault: jest.fn() };
-      // fireEvent.submit(formNewBill, mockEvent);
-      // expect(mockEvent.preventDefault).toHaveBeenCalled();
-
-      // const fakeEvent = { preventDefault: () => console.log('preventDefault') };
-      // formNewBill.simulate('submit', fakeEvent);
-      // expect(formNewBill.find(Notification).length).toBe(1);
-
     })
   })
 })
