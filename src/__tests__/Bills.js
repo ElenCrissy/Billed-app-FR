@@ -102,6 +102,14 @@ describe("Given I am user connected as Employee", () => {
       expect(spyOnHandleClickIconEye).toHaveBeenCalled()
       // expect(handleClickIconEye).toHaveBeenCalled()
 
+      window.$ = jest.fn().mockImplementation(() => {
+        return {
+          modal: jest.fn()
+        }
+      })
+
+      fireEvent.click(eye)
+      expect(window.$).toHaveBeenCalled()
 
     })
   })
