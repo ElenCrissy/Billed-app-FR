@@ -97,6 +97,14 @@ describe("Given I am user connected as Employee", () => {
       eye.addEventListener('click', handleClickIconEye)
       userEvent.click(eye)
       expect(handleClickIconEye).toHaveBeenCalled()
+
+      window.$ = jest.fn().mockImplementation(() => {
+        return {
+          modal: jest.fn()
+        }
+      })
+      fireEvent.click(eye)
+      expect(window.$).toHaveBeenCalled()
     })
   })
 })

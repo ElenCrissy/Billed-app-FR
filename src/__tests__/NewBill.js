@@ -155,7 +155,14 @@ describe("Given I am connected as an employee", () => {
       const spyOnCreateBill = jest.spyOn(newBill, "createBill")
       newBill.createBill(billMock)
       expect(spyOnCreateBill).toHaveBeenCalled()
+
+      const spyOnOnNavigate = jest.spyOn(newBill, "onNavigate")
+      newBill.onNavigate(ROUTES_PATH['Bills'])
+      expect(spyOnOnNavigate).toHaveBeenCalled()
+
       expect(screen.getByText("Mes notes de frais")).toBeTruthy()
+
+
     })
   })
 
