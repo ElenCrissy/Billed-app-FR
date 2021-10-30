@@ -94,13 +94,10 @@ describe("Given I am user connected as Employee", () => {
 
       const bill = new Bills({document, onNavigate, firestore: null, localStorage: window.localStorage,})
       const eye = screen.getAllByTestId('icon-eye')[1]
-      // const handleClickIconEye = jest.fn(bill.handleClickIconEye(eye))
       const spyOnHandleClickIconEye = jest.spyOn(bill, "handleClickIconEye")
 
-      // eye.addEventListener('click', handleClickIconEye)
       userEvent.click(eye)
       expect(spyOnHandleClickIconEye).toHaveBeenCalled()
-      // expect(handleClickIconEye).toHaveBeenCalled()
 
       window.$ = jest.fn().mockImplementation(() => {
         return {
@@ -110,7 +107,6 @@ describe("Given I am user connected as Employee", () => {
 
       fireEvent.click(eye)
       expect(window.$).toHaveBeenCalled()
-
     })
   })
 })

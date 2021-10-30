@@ -25,7 +25,7 @@ export default class NewBill {
     const file = this.document.querySelector(`input[data-testid="file"]`)
     const fileDetails = this.document.querySelector(`input[data-testid="file"]`).files[0]
     // Bug 3
-    //si extension est différente de jpg, jpeg ou png => erreur
+    // si extension est differente de jpg, jpeg ou png => erreur
     const fileName = fileDetails.name
     const extension = fileName.split(".").pop()
     const error = this.document.querySelector('.error')
